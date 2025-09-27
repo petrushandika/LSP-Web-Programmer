@@ -3,9 +3,12 @@
 ## 🚀 Overview
 Dokumentasi lengkap untuk testing API Wedding Organizer menggunakan Postman atau tools testing API lainnya.
 
+**PENTING**: API endpoints sekarang tersedia di `/api/` dengan response JSON murni, terpisah dari web routes yang mengembalikan views HTML.
+
 ## 📋 Table of Contents
 - [Prerequisites](#prerequisites)
 - [Setup](#setup)
+- [API vs Web Routes](#api-vs-web-routes)
 - [Authentication](#authentication)
 - [User API](#user-api)
 - [Catalogue API](#catalogue-api)
@@ -34,8 +37,29 @@ php -S localhost:8000 -t public public/index.php
 
 ### Base Configuration
 - **Base URL**: `http://localhost:8000`
+- **API Base URL**: `http://localhost:8000/api/`
 - **Content-Type**: `application/json`
 - **Accept**: `application/json`
+
+---
+
+## 🔄 API vs Web Routes
+
+### API Routes (`/api/`)
+- **Purpose**: JSON responses untuk aplikasi mobile, SPA, atau integrasi sistem
+- **Response**: Pure JSON data
+- **Controllers**: `App\Http\Controllers\Api\*ApiController`
+- **Base URL**: `http://localhost:8000/api/`
+
+### Web Routes (`/`)
+- **Purpose**: HTML views untuk web interface
+- **Response**: Rendered HTML pages (Blade templates)
+- **Controllers**: `App\Http\Controllers\*Controller`
+- **Base URL**: `http://localhost:8000/`
+
+**Contoh**:
+- API: `GET /api/users` → JSON response
+- Web: `GET /users` → HTML page
 
 ---
 
@@ -49,17 +73,17 @@ Saat ini API menggunakan web routes tanpa authentication token. Untuk production
 ### 📖 Endpoints Overview
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/users` | Ambil semua user |
-| GET | `/users/{id}` | Ambil user berdasarkan ID |
-| POST | `/users` | Buat user baru |
-| PUT | `/users/{id}` | Update user |
-| DELETE | `/users/{id}` | Hapus user |
+| GET | `/api/users` | Ambil semua user |
+| GET | `/api/users/{id}` | Ambil user berdasarkan ID |
+| POST | `/api/users` | Buat user baru |
+| PUT | `/api/users/{id}` | Update user |
+| DELETE | `/api/users/{id}` | Hapus user |
 
 ### 📝 Detailed Documentation
 
 #### 1. GET All Users
 ```http
-GET /users
+GET /api/users
 Accept: application/json
 ```
 
@@ -86,27 +110,30 @@ Accept: application/json
 
 #### 2. GET User by ID
 ```http
-GET /users/1
+GET /api/users/1
 Accept: application/json
 ```
 
 **Response Success (200)**:
 ```json
 {
-    "id": 1,
-    "name": "John Doe",
-    "email": "john@example.com",
-    "phone_number": "081234567890",
-    "role": "client",
-    "address": "Jl. Contoh No. 123, Jakarta",
-    "created_at": "2024-01-15T10:30:00.000000Z",
-    "updated_at": "2024-01-15T10:30:00.000000Z"
+    "message": "User retrieved successfully",
+    "data": {
+        "id": 1,
+        "name": "John Doe",
+        "email": "john@example.com",
+        "phone_number": "081234567890",
+        "role": "client",
+        "address": "Jl. Contoh No. 123, Jakarta",
+        "created_at": "2024-01-15T10:30:00.000000Z",
+        "updated_at": "2024-01-15T10:30:00.000000Z"
+    }
 }
 ```
 
 #### 3. POST Create User
 ```http
-POST /users
+POST /api/users
 Content-Type: application/json
 Accept: application/json
 
@@ -123,20 +150,23 @@ Accept: application/json
 **Response Success (201)**:
 ```json
 {
-    "id": 2,
-    "name": "Jane Smith",
-    "email": "jane@example.com",
-    "phone_number": "081234567891",
-    "role": "admin",
-    "address": "Jl. Admin No. 456, Jakarta",
-    "created_at": "2024-01-15T11:00:00.000000Z",
-    "updated_at": "2024-01-15T11:00:00.000000Z"
+    "message": "User created successfully",
+    "data": {
+        "id": 2,
+        "name": "Jane Smith",
+        "email": "jane@example.com",
+        "phone_number": "081234567891",
+        "role": "admin",
+        "address": "Jl. Admin No. 456, Jakarta",
+        "created_at": "2024-01-15T11:00:00.000000Z",
+        "updated_at": "2024-01-15T11:00:00.000000Z"
+    }
 }
 ```
 
 #### 4. PUT Update User
 ```http
-PUT /users/1
+PUT /api/users/1
 Content-Type: application/json
 Accept: application/json
 
@@ -149,9 +179,26 @@ Accept: application/json
 }
 ```
 
+**Response Success (200)**:
+```json
+{
+    "message": "User updated successfully",
+    "data": {
+        "id": 1,
+        "name": "John Doe Updated",
+        "email": "john.updated@example.com",
+        "phone_number": "081234567892",
+        "role": "admin",
+        "address": "Jl. Updated No. 789, Jakarta",
+        "created_at": "2024-01-15T10:30:00.000000Z",
+        "updated_at": "2024-01-15T11:30:00.000000Z"
+    }
+}
+```
+
 #### 5. DELETE User
 ```http
-DELETE /users/1
+DELETE /api/users/1
 Accept: application/json
 ```
 
@@ -169,17 +216,17 @@ Accept: application/json
 ### 📖 Endpoints Overview
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/catalogues` | Ambil semua katalog |
-| GET | `/catalogues/{id}` | Ambil katalog berdasarkan ID |
-| POST | `/catalogues` | Buat katalog baru |
-| PUT | `/catalogues/{id}` | Update katalog |
-| DELETE | `/catalogues/{id}` | Hapus katalog |
+| GET | `/api/catalogues` | Ambil semua katalog |
+| GET | `/api/catalogues/{id}` | Ambil katalog berdasarkan ID |
+| POST | `/api/catalogues` | Buat katalog baru |
+| PUT | `/api/catalogues/{id}` | Update katalog |
+| DELETE | `/api/catalogues/{id}` | Hapus katalog |
 
 ### 📝 Detailed Documentation
 
 #### 1. GET All Catalogues
 ```http
-GET /catalogues
+GET /api/catalogues
 Accept: application/json
 ```
 
@@ -200,7 +247,8 @@ Accept: application/json
             "updated_at": "2024-01-15T10:30:00.000000Z",
             "user": {
                 "id": 1,
-                "name": "Wedding Organizer ABC"
+                "name": "Wedding Organizer ABC",
+                "email": "admin@weddingabc.com"
             }
         }
     ],
@@ -211,7 +259,7 @@ Accept: application/json
 
 #### 2. POST Create Catalogue (with Image Upload)
 ```http
-POST /catalogues
+POST /api/catalogues
 Content-Type: multipart/form-data
 Accept: application/json
 
@@ -224,20 +272,43 @@ Form Data:
 - image: [file upload]
 ```
 
+**Response Success (201)**:
+```json
+{
+    "message": "Catalogue created successfully",
+    "data": {
+        "id": 2,
+        "title": "Paket Wedding Deluxe",
+        "user_id": 1,
+        "price": 75000000,
+        "is_publish": 1,
+        "description": "Paket wedding deluxe dengan fasilitas lengkap",
+        "image": "catalogues/deluxe-wedding.jpg",
+        "created_at": "2024-01-15T12:00:00.000000Z",
+        "updated_at": "2024-01-15T12:00:00.000000Z",
+        "user": {
+            "id": 1,
+            "name": "Wedding Organizer ABC",
+            "email": "admin@weddingabc.com"
+        }
+    }
+}
+```
+
 #### 3. PUT Update Catalogue
 ```http
-POST /catalogues/1
+PUT /api/catalogues/1
 Content-Type: multipart/form-data
 Accept: application/json
 
 Form Data:
-- _method: "PUT"
 - title: "Paket Wedding Premium Updated"
 - user_id: 1
 - price: 55000000
 - is_publish: 1
 - description: "Paket wedding premium updated"
 - image: [file upload - optional]
+- remove_image: false
 ```
 
 ---
@@ -247,17 +318,17 @@ Form Data:
 ### 📖 Endpoints Overview
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/orders` | Ambil semua pesanan |
-| GET | `/orders/{id}` | Ambil pesanan berdasarkan ID |
-| POST | `/orders` | Buat pesanan baru |
-| PUT | `/orders/{id}` | Update pesanan |
-| DELETE | `/orders/{id}` | Hapus pesanan |
+| GET | `/api/orders` | Ambil semua pesanan |
+| GET | `/api/orders/{id}` | Ambil pesanan berdasarkan ID |
+| POST | `/api/orders` | Buat pesanan baru |
+| PUT | `/api/orders/{id}` | Update pesanan |
+| DELETE | `/api/orders/{id}` | Hapus pesanan |
 
 ### 📝 Detailed Documentation
 
 #### 1. GET All Orders
 ```http
-GET /orders
+GET /api/orders
 Accept: application/json
 ```
 
@@ -276,12 +347,16 @@ Accept: application/json
             "user": {
                 "id": 2,
                 "name": "Jane Smith",
-                "email": "jane@example.com"
+                "email": "jane@example.com",
+                "phone_number": "081234567891",
+                "role": "client",
+                "address": "Jl. Client No. 789, Jakarta"
             },
             "catalogue": {
                 "id": 1,
                 "title": "Paket Wedding Premium",
-                "price": 50000000
+                "price": 50000000,
+                "user_id": 1
             }
         }
     ],
@@ -292,7 +367,7 @@ Accept: application/json
 
 #### 2. POST Create Order
 ```http
-POST /orders
+POST /api/orders
 Content-Type: application/json
 Accept: application/json
 
@@ -306,18 +381,35 @@ Accept: application/json
 **Response Success (201)**:
 ```json
 {
-    "id": 2,
-    "user_id": 2,
-    "catalogue_id": 1,
-    "status": "pending",
-    "created_at": "2024-01-15T12:30:00.000000Z",
-    "updated_at": "2024-01-15T12:30:00.000000Z"
+    "message": "Order created successfully",
+    "data": {
+        "id": 2,
+        "user_id": 2,
+        "catalogue_id": 1,
+        "status": "pending",
+        "created_at": "2024-01-15T12:30:00.000000Z",
+        "updated_at": "2024-01-15T12:30:00.000000Z",
+        "user": {
+            "id": 2,
+            "name": "Jane Smith",
+            "email": "jane@example.com",
+            "phone_number": "081234567891",
+            "role": "client",
+            "address": "Jl. Client No. 789, Jakarta"
+        },
+        "catalogue": {
+            "id": 1,
+            "title": "Paket Wedding Premium",
+            "price": 50000000,
+            "user_id": 1
+        }
+    }
 }
 ```
 
 #### 3. PUT Update Order Status
 ```http
-PUT /orders/1
+PUT /api/orders/1
 Content-Type: application/json
 Accept: application/json
 
@@ -335,17 +427,17 @@ Accept: application/json
 ### 📖 Endpoints Overview
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/settings` | Ambil semua pengaturan |
-| GET | `/settings/{id}` | Ambil pengaturan berdasarkan ID |
-| POST | `/settings` | Buat pengaturan baru |
-| PUT | `/settings/{id}` | Update pengaturan |
-| DELETE | `/settings/{id}` | Hapus pengaturan |
+| GET | `/api/settings` | Ambil semua pengaturan |
+| GET | `/api/settings/{id}` | Ambil pengaturan berdasarkan ID |
+| POST | `/api/settings` | Buat pengaturan baru |
+| PUT | `/api/settings/{id}` | Update pengaturan |
+| DELETE | `/api/settings/{id}` | Hapus pengaturan |
 
 ### 📝 Detailed Documentation
 
 #### 1. POST Create Setting
 ```http
-POST /settings
+POST /api/settings
 Content-Type: application/json
 Accept: application/json
 
@@ -361,14 +453,17 @@ Accept: application/json
 **Response Success (201)**:
 ```json
 {
-    "id": 1,
-    "company_name": "Wedding Organizer ABC",
-    "email": "info@weddingabc.com",
-    "phone_number": "021-12345678",
-    "address": "Jl. Wedding No. 123, Jakarta Selatan",
-    "description": "Wedding organizer terpercaya dengan pengalaman lebih dari 10 tahun",
-    "created_at": "2024-01-15T13:00:00.000000Z",
-    "updated_at": "2024-01-15T13:00:00.000000Z"
+    "message": "Setting created successfully",
+    "data": {
+        "id": 1,
+        "company_name": "Wedding Organizer ABC",
+        "email": "info@weddingabc.com",
+        "phone_number": "021-12345678",
+        "address": "Jl. Wedding No. 123, Jakarta Selatan",
+        "description": "Wedding organizer terpercaya dengan pengalaman lebih dari 10 tahun",
+        "created_at": "2024-01-15T13:00:00.000000Z",
+        "updated_at": "2024-01-15T13:00:00.000000Z"
+    }
 }
 ```
 
@@ -379,55 +474,55 @@ Accept: application/json
 ### 1. Complete User Flow
 ```bash
 # 1. Create a new user
-POST /users (with valid data)
+POST /api/users (with valid data)
 
 # 2. Get the created user
-GET /users/{id}
+GET /api/users/{id}
 
 # 3. Update user information
-PUT /users/{id}
+PUT /api/users/{id}
 
 # 4. Verify the update
-GET /users/{id}
+GET /api/users/{id}
 
 # 5. Delete the user
-DELETE /users/{id}
+DELETE /api/users/{id}
 
 # 6. Verify deletion
-GET /users/{id} (should return 404)
+GET /api/users/{id} (should return 404)
 ```
 
 ### 2. Catalogue with Image Upload
 ```bash
 # 1. Create catalogue with image
-POST /catalogues (multipart/form-data)
+POST /api/catalogues (multipart/form-data)
 
 # 2. Verify image is stored
-GET /catalogues/{id}
+GET /api/catalogues/{id}
 
 # 3. Update catalogue image
-PUT /catalogues/{id} (with new image)
+PUT /api/catalogues/{id} (with new image)
 
 # 4. Delete catalogue
-DELETE /catalogues/{id}
+DELETE /api/catalogues/{id}
 ```
 
 ### 3. Order Management Flow
 ```bash
 # 1. Create user (customer)
-POST /users
+POST /api/users
 
 # 2. Create catalogue
-POST /catalogues
+POST /api/catalogues
 
 # 3. Create order
-POST /orders (linking user and catalogue)
+POST /api/orders (linking user and catalogue)
 
 # 4. Update order status
-PUT /orders/{id} (change status to approved)
+PUT /api/orders/{id} (change status to approved)
 
 # 5. Get order details with relationships
-GET /orders/{id}
+GET /api/orders/{id}
 ```
 
 ---
@@ -447,7 +542,7 @@ GET /orders/{id}
 ### Validation Error Example (422)
 ```json
 {
-    "message": "The given data was invalid.",
+    "message": "Validation failed",
     "errors": {
         "email": [
             "The email field is required."
@@ -462,7 +557,8 @@ GET /orders/{id}
 ### Not Found Error Example (404)
 ```json
 {
-    "message": "No query results for model [App\\Models\\User] 999"
+    "message": "User not found",
+    "error": "No query results for model [App\\Models\\User] 999"
 }
 ```
 
@@ -475,7 +571,8 @@ Import file `Wedding-Organizer-API.postman_collection.json` ke Postman untuk tes
 1. Buka Postman
 2. Klik **Import**
 3. Pilih file collection
-4. Semua endpoint akan tersedia untuk testing
+4. **Update Base URL** ke `http://localhost:8000/api/` untuk API endpoints
+5. Semua endpoint akan tersedia untuk testing
 
 ---
 
@@ -483,7 +580,8 @@ Import file `Wedding-Organizer-API.postman_collection.json` ke Postman untuk tes
 
 ### 1. Environment Variables
 Buat environment di Postman dengan:
-- `base_url`: `http://localhost:8000`
+- `api_base_url`: `http://localhost:8000/api`
+- `web_base_url`: `http://localhost:8000`
 - `user_id`: ID user yang valid
 - `catalogue_id`: ID catalogue yang valid
 
@@ -503,8 +601,15 @@ pm.test("Status code is 200", function () {
 // Verify response structure
 pm.test("Response has required fields", function () {
     var jsonData = pm.response.json();
-    pm.expect(jsonData).to.have.property('id');
-    pm.expect(jsonData).to.have.property('name');
+    pm.expect(jsonData).to.have.property('message');
+    pm.expect(jsonData).to.have.property('data');
+});
+
+// Verify API response format
+pm.test("Response is proper API format", function () {
+    var jsonData = pm.response.json();
+    pm.expect(jsonData).to.not.have.property('html');
+    pm.expect(typeof jsonData).to.equal('object');
 });
 ```
 
@@ -517,7 +622,8 @@ Jika mengalami masalah saat testing:
 2. Cek database connection
 3. Verify migration sudah dijalankan
 4. Check Laravel logs di `storage/logs/laravel.log`
+5. Pastikan menggunakan `/api/` prefix untuk API endpoints
 
 ---
 
-**Happy Testing! 🚀**
+**Happy API Testing! 🚀**
