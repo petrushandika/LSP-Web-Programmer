@@ -13,6 +13,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Support\Facades\Log;
 use App\Exceptions\CustomException;
 use Throwable;
 
@@ -164,7 +165,7 @@ class Handler extends ExceptionHandler
             ], 401);
         }
 
-        return redirect()->guest($exception->redirectTo() ?? route('login'));
+        return redirect()->guest($exception->redirectTo($request) ?? route('login'));
     }
 
     /**
@@ -175,7 +176,7 @@ class Handler extends ExceptionHandler
     protected function context(): array
     {
         return array_merge(parent::context(), [
-            'user_id' => auth()->id(),
+            'user_id' => optional(auth()->guard()->user())->id,
             'ip' => request()->ip(),
             'user_agent' => request()->userAgent(),
         ]);

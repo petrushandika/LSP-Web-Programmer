@@ -44,7 +44,7 @@ class CatalogueApiController extends Controller
     {
         try {
             $perPage = $request->get('per_page', 10);
-            $catalogues = $this->catalogueService->paginate($perPage);
+            $catalogues = $this->catalogueService->getAllCatalogues($perPage);
 
             return response()->json([
                 'success' => true,
@@ -74,7 +74,7 @@ class CatalogueApiController extends Controller
     public function store(CreateCatalogueRequest $request): JsonResponse
     {
         try {
-            $catalogue = $this->catalogueService->create($request->validated());
+            $catalogue = $this->catalogueService->createCatalogue($request->validated());
 
             return response()->json([
                 'success' => true,
@@ -98,7 +98,7 @@ class CatalogueApiController extends Controller
     public function show(int $id): JsonResponse
     {
         try {
-            $catalogue = $this->catalogueService->findById($id);
+            $catalogue = $this->catalogueService->getCatalogueById($id);
 
             return response()->json([
                 'success' => true,
@@ -123,7 +123,7 @@ class CatalogueApiController extends Controller
     public function update(UpdateCatalogueRequest $request, int $id): JsonResponse
     {
         try {
-            $catalogue = $this->catalogueService->update($id, $request->validated());
+            $catalogue = $this->catalogueService->updateCatalogue($id, $request->validated());
 
             return response()->json([
                 'success' => true,
@@ -147,7 +147,7 @@ class CatalogueApiController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $this->catalogueService->delete($id);
+            $this->catalogueService->deleteCatalogue($id);
 
             return response()->json([
                 'success' => true,
@@ -170,21 +170,12 @@ class CatalogueApiController extends Controller
     public function published(Request $request): JsonResponse
     {
         try {
-            $perPage = $request->get('per_page', 10);
-            $catalogues = $this->catalogueService->getPublished($perPage);
+            $catalogues = $this->catalogueService->getPublishedCatalogues();
 
             return response()->json([
                 'success' => true,
                 'message' => 'Data katalog yang dipublikasi berhasil diambil',
-                'data' => CatalogueResource::collection($catalogues->items()),
-                'pagination' => [
-                    'current_page' => $catalogues->currentPage(),
-                    'per_page' => $catalogues->perPage(),
-                    'total' => $catalogues->total(),
-                    'last_page' => $catalogues->lastPage(),
-                    'from' => $catalogues->firstItem(),
-                    'to' => $catalogues->lastItem(),
-                ]
+                'data' => CatalogueResource::collection($catalogues)
             ]);
         } catch (\Exception $e) {
             Log::error('Error fetching published catalogues: ' . $e->getMessage());
@@ -202,22 +193,13 @@ class CatalogueApiController extends Controller
     {
         try {
             $filters = $request->only(['title', 'user_id', 'is_publish', 'min_price', 'max_price', 'created_from', 'created_to']);
-            $perPage = $request->get('per_page', 10);
             
-            $catalogues = $this->catalogueService->search($filters, $perPage);
+            $catalogues = $this->catalogueService->searchCatalogues($filters);
 
             return response()->json([
                 'success' => true,
                 'message' => 'Pencarian katalog berhasil',
-                'data' => CatalogueResource::collection($catalogues->items()),
-                'pagination' => [
-                    'current_page' => $catalogues->currentPage(),
-                    'per_page' => $catalogues->perPage(),
-                    'total' => $catalogues->total(),
-                    'last_page' => $catalogues->lastPage(),
-                    'from' => $catalogues->firstItem(),
-                    'to' => $catalogues->lastItem(),
-                ]
+                'data' => CatalogueResource::collection($catalogues)
             ]);
         } catch (\Exception $e) {
             Log::error('Error searching catalogues: ' . $e->getMessage());
@@ -235,21 +217,12 @@ class CatalogueApiController extends Controller
     public function getByUser(int $userId, Request $request): JsonResponse
     {
         try {
-            $perPage = $request->get('per_page', 10);
-            $catalogues = $this->catalogueService->findByUserId($userId, $perPage);
+            $catalogues = $this->catalogueService->getCataloguesByUserId($userId);
 
             return response()->json([
                 'success' => true,
                 'message' => 'Data katalog user berhasil diambil',
-                'data' => CatalogueResource::collection($catalogues->items()),
-                'pagination' => [
-                    'current_page' => $catalogues->currentPage(),
-                    'per_page' => $catalogues->perPage(),
-                    'total' => $catalogues->total(),
-                    'last_page' => $catalogues->lastPage(),
-                    'from' => $catalogues->firstItem(),
-                    'to' => $catalogues->lastItem(),
-                ]
+                'data' => CatalogueResource::collection($catalogues)
             ]);
         } catch (\Exception $e) {
             Log::error('Error fetching user catalogues: ' . $e->getMessage());
@@ -266,7 +239,7 @@ class CatalogueApiController extends Controller
     public function togglePublish(int $id): JsonResponse
     {
         try {
-            $catalogue = $this->catalogueService->togglePublish($id);
+            $catalogue = $this->catalogueService->togglePublishStatus($id);
 
             return response()->json([
                 'success' => true,
@@ -289,7 +262,7 @@ class CatalogueApiController extends Controller
     public function statistics(): JsonResponse
     {
         try {
-            $stats = $this->catalogueService->getStatistics();
+            $stats = $this->catalogueService->getCatalogueStatistics();
 
             return response()->json([
                 'success' => true,

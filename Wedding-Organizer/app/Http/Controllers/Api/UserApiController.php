@@ -44,7 +44,7 @@ class UserApiController extends Controller
     {
         try {
             $perPage = $request->get('per_page', 10);
-            $users = $this->userService->paginate($perPage);
+            $users = $this->userService->getAllUsers($perPage);
 
             return response()->json([
                 'success' => true,
@@ -74,7 +74,7 @@ class UserApiController extends Controller
     public function store(CreateUserRequest $request): JsonResponse
     {
         try {
-            $user = $this->userService->create($request->validated());
+            $user = $this->userService->createUser($request->validated());
 
             return response()->json([
                 'success' => true,
@@ -98,7 +98,7 @@ class UserApiController extends Controller
     public function show(int $id): JsonResponse
     {
         try {
-            $user = $this->userService->findById($id);
+            $user = $this->userService->getUserById($id);
 
             return response()->json([
                 'success' => true,
@@ -123,7 +123,7 @@ class UserApiController extends Controller
     public function update(UpdateUserRequest $request, int $id): JsonResponse
     {
         try {
-            $user = $this->userService->update($id, $request->validated());
+            $user = $this->userService->updateUser($id, $request->validated());
 
             return response()->json([
                 'success' => true,
@@ -147,7 +147,7 @@ class UserApiController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $this->userService->delete($id);
+            $this->userService->deleteUser($id);
 
             return response()->json([
                 'success' => true,
@@ -171,22 +171,13 @@ class UserApiController extends Controller
     {
         try {
             $filters = $request->only(['name', 'email', 'role', 'created_from', 'created_to']);
-            $perPage = $request->get('per_page', 10);
             
-            $users = $this->userService->search($filters, $perPage);
+            $users = $this->userService->searchUsers($filters);
 
             return response()->json([
                 'success' => true,
                 'message' => 'Pencarian user berhasil',
-                'data' => UserResource::collection($users->items()),
-                'pagination' => [
-                    'current_page' => $users->currentPage(),
-                    'per_page' => $users->perPage(),
-                    'total' => $users->total(),
-                    'last_page' => $users->lastPage(),
-                    'from' => $users->firstItem(),
-                    'to' => $users->lastItem(),
-                ]
+                'data' => UserResource::collection($users)
             ]);
         } catch (\Exception $e) {
             Log::error('Error searching users: ' . $e->getMessage());
@@ -204,21 +195,12 @@ class UserApiController extends Controller
     public function getByRole(string $role, Request $request): JsonResponse
     {
         try {
-            $perPage = $request->get('per_page', 10);
-            $users = $this->userService->findByRole($role, $perPage);
+            $users = $this->userService->getUsersByRole($role);
 
             return response()->json([
                 'success' => true,
                 'message' => "Data user dengan role {$role} berhasil diambil",
-                'data' => UserResource::collection($users->items()),
-                'pagination' => [
-                    'current_page' => $users->currentPage(),
-                    'per_page' => $users->perPage(),
-                    'total' => $users->total(),
-                    'last_page' => $users->lastPage(),
-                    'from' => $users->firstItem(),
-                    'to' => $users->lastItem(),
-                ]
+                'data' => UserResource::collection($users)
             ]);
         } catch (\Exception $e) {
             Log::error('Error fetching users by role: ' . $e->getMessage());
@@ -234,7 +216,7 @@ class UserApiController extends Controller
     public function statistics(): JsonResponse
     {
         try {
-            $stats = $this->userService->getStatistics();
+            $stats = $this->userService->getUserStatistics();
 
             return response()->json([
                 'success' => true,

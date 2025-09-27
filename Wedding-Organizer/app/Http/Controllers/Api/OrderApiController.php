@@ -44,7 +44,7 @@ class OrderApiController extends Controller
     {
         try {
             $perPage = $request->get('per_page', 10);
-            $orders = $this->orderService->paginate($perPage);
+            $orders = $this->orderService->getAllOrders($perPage);
 
             return response()->json([
                 'success' => true,
@@ -98,7 +98,7 @@ class OrderApiController extends Controller
     public function show(int $id): JsonResponse
     {
         try {
-            $order = $this->orderService->findById($id);
+            $order = $this->orderService->getOrderById($id);
 
             return response()->json([
                 'success' => true,
@@ -147,7 +147,7 @@ class OrderApiController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
-            $this->orderService->delete($id);
+            $this->orderService->deleteOrder($id);
 
             return response()->json([
                 'success' => true,
@@ -171,21 +171,12 @@ class OrderApiController extends Controller
     public function getByUser(int $userId, Request $request): JsonResponse
     {
         try {
-            $perPage = $request->get('per_page', 10);
-            $orders = $this->orderService->findByUserId($userId, $perPage);
+            $orders = $this->orderService->getOrdersByUserId($userId);
 
             return response()->json([
                 'success' => true,
                 'message' => 'Data order user berhasil diambil',
-                'data' => OrderResource::collection($orders->items()),
-                'pagination' => [
-                    'current_page' => $orders->currentPage(),
-                    'per_page' => $orders->perPage(),
-                    'total' => $orders->total(),
-                    'last_page' => $orders->lastPage(),
-                    'from' => $orders->firstItem(),
-                    'to' => $orders->lastItem(),
-                ]
+                'data' => OrderResource::collection($orders)
             ]);
         } catch (\Exception $e) {
             Log::error('Error fetching user orders: ' . $e->getMessage());
@@ -203,21 +194,12 @@ class OrderApiController extends Controller
     public function getByCatalogue(int $catalogueId, Request $request): JsonResponse
     {
         try {
-            $perPage = $request->get('per_page', 10);
-            $orders = $this->orderService->findByCatalogueId($catalogueId, $perPage);
+            $orders = $this->orderService->getOrdersByCatalogueId($catalogueId);
 
             return response()->json([
                 'success' => true,
                 'message' => 'Data order katalog berhasil diambil',
-                'data' => OrderResource::collection($orders->items()),
-                'pagination' => [
-                    'current_page' => $orders->currentPage(),
-                    'per_page' => $orders->perPage(),
-                    'total' => $orders->total(),
-                    'last_page' => $orders->lastPage(),
-                    'from' => $orders->firstItem(),
-                    'to' => $orders->lastItem(),
-                ]
+                'data' => OrderResource::collection($orders)
             ]);
         } catch (\Exception $e) {
             Log::error('Error fetching catalogue orders: ' . $e->getMessage());
@@ -235,21 +217,12 @@ class OrderApiController extends Controller
     public function getByStatus(string $status, Request $request): JsonResponse
     {
         try {
-            $perPage = $request->get('per_page', 10);
-            $orders = $this->orderService->findByStatus($status, $perPage);
+            $orders = $this->orderService->getOrdersByStatus($status);
 
             return response()->json([
                 'success' => true,
                 'message' => 'Data order berdasarkan status berhasil diambil',
-                'data' => OrderResource::collection($orders->items()),
-                'pagination' => [
-                    'current_page' => $orders->currentPage(),
-                    'per_page' => $orders->perPage(),
-                    'total' => $orders->total(),
-                    'last_page' => $orders->lastPage(),
-                    'from' => $orders->firstItem(),
-                    'to' => $orders->lastItem(),
-                ]
+                'data' => OrderResource::collection($orders)
             ]);
         } catch (\Exception $e) {
             Log::error('Error fetching orders by status: ' . $e->getMessage());
@@ -267,22 +240,13 @@ class OrderApiController extends Controller
     {
         try {
             $filters = $request->only(['user_id', 'catalogue_id', 'status', 'order_date', 'created_from', 'created_to']);
-            $perPage = $request->get('per_page', 10);
             
-            $orders = $this->orderService->search($filters, $perPage);
+            $orders = $this->orderService->searchOrders($filters);
 
             return response()->json([
                 'success' => true,
                 'message' => 'Pencarian order berhasil',
-                'data' => OrderResource::collection($orders->items()),
-                'pagination' => [
-                    'current_page' => $orders->currentPage(),
-                    'per_page' => $orders->perPage(),
-                    'total' => $orders->total(),
-                    'last_page' => $orders->lastPage(),
-                    'from' => $orders->firstItem(),
-                    'to' => $orders->lastItem(),
-                ]
+                'data' => OrderResource::collection($orders)
             ]);
         } catch (\Exception $e) {
             Log::error('Error searching orders: ' . $e->getMessage());
@@ -299,7 +263,7 @@ class OrderApiController extends Controller
     public function approve(int $id): JsonResponse
     {
         try {
-            $order = $this->orderService->approve($id);
+            $order = $this->orderService->approveOrder($id);
 
             return response()->json([
                 'success' => true,
@@ -323,7 +287,7 @@ class OrderApiController extends Controller
     public function reject(int $id): JsonResponse
     {
         try {
-            $order = $this->orderService->reject($id);
+            $order = $this->orderService->rejectOrder($id);
 
             return response()->json([
                 'success' => true,
@@ -347,7 +311,7 @@ class OrderApiController extends Controller
     public function complete(int $id): JsonResponse
     {
         try {
-            $order = $this->orderService->complete($id);
+            $order = $this->orderService->completeOrder($id);
 
             return response()->json([
                 'success' => true,
@@ -371,7 +335,7 @@ class OrderApiController extends Controller
     public function cancel(int $id): JsonResponse
     {
         try {
-            $order = $this->orderService->cancel($id);
+            $order = $this->orderService->cancelOrder($id);
 
             return response()->json([
                 'success' => true,
@@ -394,7 +358,7 @@ class OrderApiController extends Controller
     public function statistics(): JsonResponse
     {
         try {
-            $stats = $this->orderService->getStatistics();
+            $stats = $this->orderService->getOrderStatistics();
 
             return response()->json([
                 'success' => true,
