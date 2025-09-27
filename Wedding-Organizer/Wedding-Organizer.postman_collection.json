@@ -2,142 +2,142 @@
 	"info": {
 		"_postman_id": "wedding-organizer-api",
 		"name": "Wedding Organizer API",
-		"description": "Collection untuk testing API Wedding Organizer dengan semua endpoint CRUD",
+		"description": "Complete API collection for Wedding Organizer application with proper /api/ endpoints",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "Users",
 			"item": [
-			{
-				"name": "Get All Users",
-				"request": {
-					"method": "GET",
-					"header": [
-						{
-							"key": "Accept",
-							"value": "application/json"
-						}
-					],
-					"url": {
-						"raw": "{{base_url}}/api/users",
-						"host": [
-							"{{base_url}}"
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
 						],
-						"path": [
-							"api",
-							"users"
-						]
-					}
-				}
-			},
-			{
-				"name": "Get User by ID",
-				"request": {
-					"method": "GET",
-					"header": [
-						{
-							"key": "Accept",
-							"value": "application/json"
+						"url": {
+							"raw": "{{LOCAL}}/api/users",
+							"host": [
+								"{{LOCAL}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
 						}
-					],
-					"url": {
-						"raw": "{{base_url}}/api/users/1",
-						"host": [
-							"{{base_url}}"
-						],
-						"path": [
-							"api",
-							"users",
-							"1"
-						]
 					}
-				}
-			},
-			{
-				"name": "Create User",
-				"request": {
-					"method": "POST",
-					"header": [
-						{
-							"key": "Accept",
-							"value": "application/json"
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{LOCAL}}/api/users/1",
+							"host": [
+								"{{LOCAL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"password\": \"password123\",\n    \"phone_number\": \"081234567890\",\n    \"role\": \"client\",\n    \"address\": \"Jl. Contoh No. 123, Jakarta\"\n}"
 						},
-						{
-							"key": "Content-Type",
-							"value": "application/json"
+						"url": {
+							"raw": "{{LOCAL}}/api/users",
+							"host": [
+								"{{LOCAL}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
 						}
-					],
-					"body": {
-						"mode": "raw",
-						"raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"password\": \"password123\",\n    \"phone_number\": \"081234567890\",\n    \"role\": \"client\",\n    \"address\": \"Jl. Contoh No. 123, Jakarta\"\n}"
-					},
-					"url": {
-						"raw": "{{base_url}}/api/users",
-						"host": [
-							"{{base_url}}"
-						],
-						"path": [
-							"api",
-							"users"
-						]
 					}
-				}
-			},
-			{
-				"name": "Update User",
-				"request": {
-					"method": "PUT",
-					"header": [
-						{
-							"key": "Accept",
-							"value": "application/json"
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"John Doe Updated\",\n    \"email\": \"john.updated@example.com\",\n    \"phone_number\": \"081234567892\",\n    \"role\": \"admin\",\n    \"address\": \"Jl. Updated No. 789, Jakarta\"\n}"
 						},
-						{
-							"key": "Content-Type",
-							"value": "application/json"
+						"url": {
+							"raw": "{{LOCAL}}/api/users/1",
+							"host": [
+								"{{LOCAL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
 						}
-					],
-					"body": {
-						"mode": "raw",
-						"raw": "{\n    \"name\": \"John Doe Updated\",\n    \"email\": \"john.updated@example.com\",\n    \"phone_number\": \"081234567892\",\n    \"role\": \"admin\",\n    \"address\": \"Jl. Updated No. 789, Jakarta\"\n}"
-					},
-					"url": {
-						"raw": "{{base_url}}/api/users/1",
-						"host": [
-							"{{base_url}}"
+					}
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
 						],
-						"path": [
-							"api",
-							"users",
-							"1"
-						]
+						"url": {
+							"raw": "{{LOCAL}}/api/users/1",
+							"host": [
+								"{{LOCAL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
 					}
 				}
-			},
-			{
-				"name": "Delete User",
-				"request": {
-					"method": "DELETE",
-					"header": [
-						{
-							"key": "Accept",
-							"value": "application/json"
-						}
-					],
-					"url": {
-						"raw": "{{base_url}}/api/users/1",
-						"host": [
-							"{{base_url}}"
-						],
-						"path": [
-							"api",
-							"users",
-							"1"
-						]
-					}
-				}
-			}
 			]
 		},
 		{
@@ -154,9 +154,9 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/api/catalogues",
+							"raw": "{{LOCAL}}/api/catalogues",
 							"host": [
-								"{{base_url}}"
+								"{{LOCAL}}"
 							],
 							"path": [
 								"api",
@@ -176,9 +176,9 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/api/catalogues/1",
+							"raw": "{{LOCAL}}/api/catalogues/1",
 							"host": [
-								"{{base_url}}"
+								"{{LOCAL}}"
 							],
 							"path": [
 								"api",
@@ -234,9 +234,9 @@
 							]
 						},
 						"url": {
-							"raw": "{{base_url}}/api/catalogues",
+							"raw": "{{LOCAL}}/api/catalogues",
 							"host": [
-								"{{base_url}}"
+								"{{LOCAL}}"
 							],
 							"path": [
 								"api",
@@ -285,7 +285,7 @@
 								},
 								{
 									"key": "description",
-									"value": "Paket wedding premium updated dengan dekorasi mewah dan catering terbaik",
+									"value": "Paket wedding premium updated dengan fasilitas terbaru",
 									"type": "text"
 								},
 								{
@@ -296,11 +296,12 @@
 							]
 						},
 						"url": {
-							"raw": "{{base_url}}/api/catalogues/1",
+							"raw": "{{LOCAL}}/api/catalogues/1",
 							"host": [
-								"{{base_url}}"
+								"{{LOCAL}}"
 							],
 							"path": [
+								"api",
 								"catalogues",
 								"1"
 							]
@@ -318,11 +319,12 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/api/catalogues/1",
+							"raw": "{{LOCAL}}/api/catalogues/1",
 							"host": [
-								"{{base_url}}"
+								"{{LOCAL}}"
 							],
 							"path": [
+								"api",
 								"catalogues",
 								"1"
 							]
@@ -345,11 +347,12 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/orders",
+							"raw": "{{LOCAL}}/api/orders",
 							"host": [
-								"{{base_url}}"
+								"{{LOCAL}}"
 							],
 							"path": [
+								"api",
 								"orders"
 							]
 						}
@@ -366,11 +369,12 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/orders/1",
+							"raw": "{{LOCAL}}/api/orders/1",
 							"host": [
-								"{{base_url}}"
+								"{{LOCAL}}"
 							],
 							"path": [
+								"api",
 								"orders",
 								"1"
 							]
@@ -396,11 +400,12 @@
 							"raw": "{\n    \"user_id\": 1,\n    \"catalogue_id\": 1,\n    \"status\": \"pending\"\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/orders",
+							"raw": "{{LOCAL}}/api/orders",
 							"host": [
-								"{{base_url}}"
+								"{{LOCAL}}"
 							],
 							"path": [
+								"api",
 								"orders"
 							]
 						}
@@ -425,11 +430,12 @@
 							"raw": "{\n    \"user_id\": 1,\n    \"catalogue_id\": 1,\n    \"status\": \"approved\"\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/orders/1",
+							"raw": "{{LOCAL}}/api/orders/1",
 							"host": [
-								"{{base_url}}"
+								"{{LOCAL}}"
 							],
 							"path": [
+								"api",
 								"orders",
 								"1"
 							]
@@ -447,11 +453,12 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/orders/1",
+							"raw": "{{LOCAL}}/api/orders/1",
 							"host": [
-								"{{base_url}}"
+								"{{LOCAL}}"
 							],
 							"path": [
+								"api",
 								"orders",
 								"1"
 							]
@@ -474,11 +481,12 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/settings",
+							"raw": "{{LOCAL}}/api/settings",
 							"host": [
-								"{{base_url}}"
+								"{{LOCAL}}"
 							],
 							"path": [
+								"api",
 								"settings"
 							]
 						}
@@ -495,11 +503,12 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/settings/1",
+							"raw": "{{LOCAL}}/api/settings/1",
 							"host": [
-								"{{base_url}}"
+								"{{LOCAL}}"
 							],
 							"path": [
+								"api",
 								"settings",
 								"1"
 							]
@@ -525,11 +534,12 @@
 							"raw": "{\n    \"company_name\": \"Wedding Organizer ABC\",\n    \"email\": \"info@weddingabc.com\",\n    \"phone_number\": \"021-12345678\",\n    \"address\": \"Jl. Wedding No. 123, Jakarta Selatan\",\n    \"description\": \"Wedding organizer terpercaya dengan pengalaman lebih dari 10 tahun\"\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/settings",
+							"raw": "{{LOCAL}}/api/settings",
 							"host": [
-								"{{base_url}}"
+								"{{LOCAL}}"
 							],
 							"path": [
+								"api",
 								"settings"
 							]
 						}
@@ -551,14 +561,15 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"company_name\": \"Wedding Organizer ABC Updated\",\n    \"email\": \"info.updated@weddingabc.com\",\n    \"phone_number\": \"021-87654321\",\n    \"address\": \"Jl. Wedding Baru No. 456, Jakarta Selatan\",\n    \"description\": \"Wedding organizer terpercaya dengan pengalaman lebih dari 15 tahun\"\n}"
+							"raw": "{\n    \"company_name\": \"Wedding Organizer ABC Updated\",\n    \"email\": \"info.updated@weddingabc.com\",\n    \"phone_number\": \"021-87654321\",\n    \"address\": \"Jl. Wedding Updated No. 456, Jakarta Selatan\",\n    \"description\": \"Wedding organizer terpercaya dengan pengalaman lebih dari 15 tahun\"\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/settings/1",
+							"raw": "{{LOCAL}}/api/settings/1",
 							"host": [
-								"{{base_url}}"
+								"{{LOCAL}}"
 							],
 							"path": [
+								"api",
 								"settings",
 								"1"
 							]
@@ -576,11 +587,12 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/settings/1",
+							"raw": "{{LOCAL}}/api/settings/1",
 							"host": [
-								"{{base_url}}"
+								"{{LOCAL}}"
 							],
 							"path": [
+								"api",
 								"settings",
 								"1"
 							]
@@ -592,7 +604,7 @@
 	],
 	"variable": [
 		{
-			"key": "base_url",
+			"key": "LOCAL",
 			"value": "http://localhost:8000",
 			"type": "string"
 		}
