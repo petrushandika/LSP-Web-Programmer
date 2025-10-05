@@ -34,7 +34,7 @@ class CatalogueController extends Controller
     {
         $validated = $request->validate([
             'user_id' => 'required|exists:users,user_id',
-            'title' => 'required|string|max:255',
+            'package_name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -75,7 +75,7 @@ class CatalogueController extends Controller
     {
         $validated = $request->validate([
             'user_id' => 'required|exists:users,user_id',
-            'title' => 'required|string|max:255',
+            'package_name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',

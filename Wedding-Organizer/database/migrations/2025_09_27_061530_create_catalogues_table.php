@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('catalogues', function (Blueprint $table) {
             $table->unsignedInteger('catalogue_id')->primary();
-            $table->string('image', 100);
+            $table->string('image', 500);
             $table->string('package_name', 256);
             $table->text('description');
             $table->unsignedInteger('price');

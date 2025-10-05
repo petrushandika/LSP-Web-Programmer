@@ -16,7 +16,7 @@ class OrderSeeder extends Seeder
     public function run(): void
     {
         // Get published catalogues
-        $catalogues = Catalogue::where('status_publish', 'published')->get();
+        $catalogues = Catalogue::where('status_publish', 'Y')->get();
         
         // Get all users
         $users = User::all();

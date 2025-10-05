@@ -188,9 +188,9 @@ class CatalogueRepository implements CatalogueRepositoryInterface
             $query->with($relations);
         }
 
-        // Filter berdasarkan title
-        if (isset($filters['title']) && !empty($filters['title'])) {
-            $query->where('title', 'like', '%' . $filters['title'] . '%');
+        // Filter berdasarkan package_name
+        if (isset($filters['package_name']) && !empty($filters['package_name'])) {
+            $query->where('package_name', 'like', '%' . $filters['package_name'] . '%');
         }
 
         // Filter berdasarkan user_id

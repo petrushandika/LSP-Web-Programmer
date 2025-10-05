@@ -192,7 +192,7 @@ class CatalogueApiController extends Controller
     public function search(Request $request): JsonResponse
     {
         try {
-            $filters = $request->only(['title', 'user_id', 'is_publish', 'min_price', 'max_price', 'created_from', 'created_to']);
+            $filters = $request->only(['package_name', 'user_id', 'is_publish', 'min_price', 'max_price', 'created_from', 'created_to']);
             
             $catalogues = $this->catalogueService->searchCatalogues($filters);
 

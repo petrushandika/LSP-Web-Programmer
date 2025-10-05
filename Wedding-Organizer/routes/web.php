@@ -5,6 +5,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CatalogueController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,12 +22,21 @@ use App\Http\Controllers\SettingController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Landing page routes
+Route::get('/', [LandingController::class, 'index'])->name('landing');
+
+// Authentication routes
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Web Resource routes for view rendering (HTML responses)
 Route::resource('users', UserController::class);
 Route::resource('catalogues', CatalogueController::class);
 Route::resource('orders', OrderController::class);
 Route::resource('settings', SettingController::class);
+
+// Catalogue detail route (after resource routes to avoid conflicts)
+Route::get('/catalogue-detail/{id}', [LandingController::class, 'catalogueDetail'])->name('catalogue.detail');
