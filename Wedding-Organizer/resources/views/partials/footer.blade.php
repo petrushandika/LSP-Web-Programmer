@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="footer" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+<footer class="footer" style="background: linear-gradient(135deg, #FF69B4 0%, #FF1493 100%); color: white;">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
@@ -33,7 +33,7 @@
                 <p class="mb-0 text-light">&copy; {{ date('Y') }} Wedify. All rights reserved.</p>
             </div>
             <div class="col-md-6 text-md-end">
-                <p class="mb-0 text-muted">Made with <i class="fas fa-heart text-danger"></i> for your special day</p>
+                <p class="mb-0 text-muted">Made with <i class="fas fa-heart" style="color: #FFB6C1;"></i> for your special day</p>
             </div>
         </div>
     </div>

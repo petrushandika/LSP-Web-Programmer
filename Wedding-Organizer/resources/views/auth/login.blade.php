@@ -41,7 +41,7 @@
             box-shadow: 0 20px 60px rgba(233, 30, 99, 0.15);
             overflow: hidden;
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
             margin: 20px;
         }
         
@@ -79,21 +79,29 @@
         }
         
         .form-control {
-            border: 2px solid #f1f3f4;
-            border-radius: 12px;
-            padding: 15px 20px;
-            font-size: 1rem;
+            border: 2px solid #e0e0e0 !important;
+            border-top: 2px solid #e0e0e0 !important;
+            border-right: 2px solid #e0e0e0 !important;
+            border-bottom: 2px solid #e0e0e0 !important;
+            border-left: 2px solid #e0e0e0 !important;
+            border-radius: 12px !important;
+            padding: 12px 20px;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
             background: #fafafa;
+            box-sizing: border-box;
         }
         
         .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(233, 30, 99, 0.1);
+            border: 2px solid var(--primary-color) !important;
+            border-top: 2px solid var(--primary-color) !important;
+            border-right: 2px solid var(--primary-color) !important;
+            border-bottom: 2px solid var(--primary-color) !important;
+            border-left: 2px solid var(--primary-color) !important;
+            box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
             background: white;
-        }
-        
-        .input-group {
+            outline: none;
+        }.input-group {
             position: relative;
         }
         
@@ -138,8 +146,13 @@
         }
         
         .auth-links {
-            text-align: center;
             margin-top: 25px;
+        }
+        
+        .auth-links .link-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         .auth-links a {
@@ -253,8 +266,10 @@
             </form>
             
             <div class="auth-links">
-                <p class="mb-2">Don't have an account?</p>
-                <a href="{{ route('register') }}">Create your Wedify account</a>
+                <div class="link-container">
+                    <span>Don't have an account?</span>
+                    <a href="{{ route('register') }}">Sign Up</a>
+                </div>
             </div>
         </div>
     </div>

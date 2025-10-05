@@ -26,25 +26,22 @@
                             <p class="catalogue-description flex-grow-1">{{ Str::limit($catalogue->description, 50, '...') }}</p>
                             <div class="catalogue-features mb-3">
                                 <div class="feature-item">
-                                    <i class="fas fa-users"></i>
                                     <span>Up to 200 Guests</span>
                                 </div>
                                 <div class="feature-item">
-                                    <i class="fas fa-file-alt"></i>
                                     <span>Complete Documentation</span>
                                 </div>
                                 <div class="feature-item">
-                                    <i class="fas fa-utensils"></i>
                                     <span>Premium Catering</span>
                                 </div>
                             </div>
                             <div class="catalogue-actions mt-auto">
                                 <div class="d-flex gap-2">
                                     <button class="btn btn-primary flex-fill" onclick="event.stopPropagation(); addToCart({{ $catalogue->catalogue_id }})">
-                                        <i class="fas fa-cart-plus me-1"></i>Add to Cart
+                                        Add to Cart
                                     </button>
                                     <button class="btn btn-outline-primary flex-fill" onclick="event.stopPropagation(); buyNow({{ $catalogue->catalogue_id }})">
-                                        <i class="fas fa-shopping-bag me-1"></i>Buy Now
+                                        Buy Now
                                     </button>
                                 </div>
                             </div>
@@ -83,25 +80,22 @@
                             <p class="catalogue-description flex-grow-1">{{ Str::limit($catalogue->description, 50, '...') }}</p>
                             <div class="catalogue-features mb-3">
                                 <div class="feature-item">
-                                    <i class="fas fa-users"></i>
                                     <span>Up to 200 Guests</span>
                                 </div>
                                 <div class="feature-item">
-                                    <i class="fas fa-file-alt"></i>
                                     <span>Complete Documentation</span>
                                 </div>
                                 <div class="feature-item">
-                                    <i class="fas fa-utensils"></i>
                                     <span>Premium Catering</span>
                                 </div>
                             </div>
                             <div class="catalogue-actions mt-auto">
                                 <div class="d-flex gap-2">
                                     <button class="btn btn-primary flex-fill" onclick="event.stopPropagation(); addToCart({{ $catalogue->catalogue_id }})">
-                                        <i class="fas fa-cart-plus me-1"></i>Add to Cart
+                                        Add to Cart
                                     </button>
                                     <button class="btn btn-outline-primary flex-fill" onclick="event.stopPropagation(); buyNow({{ $catalogue->catalogue_id }})">
-                                        <i class="fas fa-shopping-bag me-1"></i>Buy Now
+                                        Buy Now
                                     </button>
                                 </div>
                             </div>

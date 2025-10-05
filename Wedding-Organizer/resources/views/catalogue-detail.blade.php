@@ -7,6 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    @include('partials.styles')
     <style>
         :root {
             --primary-color: #E91E63;
@@ -36,30 +38,7 @@
             font-family: 'Playfair Display', serif;
         }
 
-        /* Navigation Styles */
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-        }
-
-        .navbar-brand {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color) !important;
-        }
-
-        .nav-link {
-            font-weight: 500;
-            color: var(--text-dark) !important;
-            margin: 0 0.5rem;
-            transition: color 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: var(--primary-color) !important;
-        }
+        /* Navigation styles are included from partials.styles */
 
         .btn-primary {
             background: var(--primary-color);
@@ -300,57 +279,7 @@
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="{{ route('landing') }}">
-                <i class="fas fa-heart me-2"></i>Wedify
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('landing') }}#home">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('landing') }}#catalogue">Packages</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('landing') }}#about-us">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('landing') }}#contact-us">Contact Us</a>
-                    </li>
-                    @auth
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user me-1"></i>{{ Auth::user()->name }}
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-shopping-cart me-2"></i>My Cart</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-box me-2"></i>My Orders</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
-                            </ul>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </li>
-                    @else
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">Register</a>
-                        </li>
-                    @endauth
-                </ul>
-            </div>
-        </div>
-    </nav>
+    @include('partials.navigation')
 
     <!-- Detail Section -->
     <section class="detail-section">
@@ -409,10 +338,10 @@
                         
                         <div class="d-grid gap-2 d-md-flex mb-3">
                             <button class="btn btn-primary btn-lg me-md-2" onclick="addToCart({{ $catalogue->catalogue_id }})">
-                                <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                                Add to Cart
                             </button>
                             <button class="btn btn-outline-primary btn-lg" onclick="buyNow({{ $catalogue->catalogue_id }})">
-                                <i class="fas fa-credit-card me-2"></i>Buy Now
+                                Buy Now
                             </button>
                         </div>
                         
@@ -539,8 +468,7 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @include('partials.scripts')
     <script>
         // Authentication check functions
         function checkAuthentication() {
@@ -591,25 +519,6 @@
             const phoneNumber = '{{ $settings->phone_number ?? "+62 812-345-678" }}';
             window.location.href = `tel:${phoneNumber}`;
         }
-        
-        // Add smooth scrolling for anchor links
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('a[href*="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    const href = this.getAttribute('href');
-                    if (href.includes('#') && !href.startsWith('{{ route("landing") }}')) {
-                        e.preventDefault();
-                        const target = document.querySelector(href.split('#')[1] ? '#' + href.split('#')[1] : href);
-                        if (target) {
-                            target.scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'start'
-                            });
-                        }
-                    }
-                });
-            });
-        });
     </script>
 </body>
 </html>

@@ -103,6 +103,48 @@
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
+    
+    /* Uniform button styling with pink color */
+    .btn {
+        min-width: 150px;
+        border-radius: 25px !important;
+        border: 2px solid #FF69B4;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        background: #FF69B4 !important;
+        color: white !important;
+        font-size: 0.75rem !important;
+        padding: 8px 16px !important;
+    }
+    
+    .btn:hover {
+        background: #FF1493 !important;
+        border-color: #FF1493 !important;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+    }
+    
+    .btn-primary {
+        background: #FF69B4 !important;
+        border-color: #FF69B4 !important;
+    }
+    
+    .btn-outline-primary {
+        background: #FF69B4 !important;
+        color: white !important;
+        border-color: #FF69B4 !important;
+    }
+    
+    .btn-success {
+        background: #FF69B4 !important;
+        border-color: #FF69B4 !important;
+    }
+    
+    .btn-outline-success {
+        background: #FF69B4 !important;
+        border-color: #FF69B4 !important;
+        color: white !important;
+    }
 
     /* Section Styles */
     .section-padding {
@@ -218,6 +260,10 @@
         opacity: 1;
     }
     
+    .overlay-content {
+        display: none;
+    }
+    
     .catalogue-price-badge {
          position: absolute;
          top: 20px;
@@ -275,6 +321,23 @@
         font-size: 0.9rem;
         font-weight: 700;
         color: var(--primary-color);
+    }
+    
+    /* Smaller text sizes for catalogue cards */
+    .catalogue-title {
+        font-size: 1rem !important;
+    }
+    
+    .catalogue-description {
+        font-size: 0.85rem !important;
+    }
+    
+    .feature-item span {
+        font-size: 0.8rem !important;
+    }
+    
+    .price-badge {
+        font-size: 0.8rem !important;
     }
     
     .catalogue-content {
