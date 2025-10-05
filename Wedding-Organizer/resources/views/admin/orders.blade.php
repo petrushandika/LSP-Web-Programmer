@@ -1,55 +1,66 @@
-@extends('layouts.admin')
+@extends('admin.layout')
 
 @section('title', 'Order Management')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Order Management</h3>
-                </div>
-                <div class="card-body">
-                    <!-- Search and Filter Section -->
-                    <div class="d-flex justify-content-between align-items-end mb-4">
-                        <div class="d-flex gap-3 flex-wrap">
-                            <div>
-                                <label for="search" class="form-label">Search Orders</label>
-                                <input type="text" class="form-control" id="search" name="search" 
-                                       placeholder="Search by customer name, email..." style="min-width: 250px;">
-                            </div>
-                            <div>
-                                <label for="package_filter" class="form-label">Package</label>
-                                <select class="form-select" id="package_filter" name="package" style="min-width: 180px;">
-                                    <option value="">All Packages</option>
-                                    @foreach($catalogues as $catalogue)
-                                        <option value="{{ $catalogue->id }}">
-                                            {{ $catalogue->package_name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div>
-                                <label for="status_filter" class="form-label">Status</label>
-                                <select class="form-select" id="status_filter" name="status" style="min-width: 150px;">
-                                    <option value="">All Status</option>
-                                    <option value="pending">Pending</option>
-                                    <option value="confirmed">Confirmed</option>
-                                    <option value="cancelled">Cancelled</option>
-                                    <option value="completed">Completed</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div>
-                            <button type="button" class="btn btn-outline-secondary me-2" onclick="resetFilters()">
-                                <i class="fas fa-undo me-1"></i>Reset
-                            </button>
-                        </div>
-                    </div>
+<div class="row">
+    <div class="col-12">
+        <h1 class="h3 mb-4">Order Management</h1>
+    </div>
+</div>
 
-                    <!-- Orders Table -->
-                    <div class="table-responsive">
+<!-- Search and Filter Section -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form method="GET" action="{{ route('admin.orders') }}" class="row g-3" id="orderSearchForm">
+                    <div class="col-md-4">
+                        <label for="search" class="form-label">Search</label>
+                        <input type="text" class="form-control" id="search" name="search" 
+                               value="{{ request('search') }}" placeholder="Search by customer name, email...">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="package" class="form-label">Package</label>
+                        <select class="form-select" id="package" name="package">
+                            <option value="">All Packages</option>
+                            @foreach($catalogues as $catalogue)
+                                <option value="{{ $catalogue->catalogue_id }}" {{ request('package') == $catalogue->catalogue_id ? 'selected' : '' }}>
+                                    {{ $catalogue->package_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" id="status" name="status">
+                            <option value="">All Status</option>
+                            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                            <option value="confirmed" {{ request('status') == 'confirmed' ? 'selected' : '' }}>Confirmed</option>
+                            <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                            <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Completed</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary me-2">
+                            <i class="fas fa-search me-1"></i>Search
+                        </button>
+                        <a href="{{ route('admin.orders') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-times me-1"></i>Clear
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Orders Table -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
                         <table class="table table-striped table-hover">
                             <thead class="table-dark">
                                 <tr>
@@ -64,19 +75,98 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Table content will be loaded via JavaScript -->
+                                @forelse($orders as $order)
+                                    <tr>
+                                        <td><strong>#{{ $order->id }}</strong></td>
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                <strong>{{ $order->user ? $order->user->name : 'N/A' }}</strong>
+                                                <small class="text-muted">{{ $order->user ? $order->user->email : 'N/A' }}</small>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                @if($order->catalogue && $order->catalogue->image)
+                                                    <img src="{{ asset($order->catalogue->image) }}" alt="Package" class="rounded me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                                @else
+                                                    <div class="bg-light rounded me-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                                        <i class="fas fa-image text-muted"></i>
+                                                    </div>
+                                                @endif
+                                                <div>
+                                                    <strong>{{ $order->catalogue ? $order->catalogue->package_name : 'N/A' }}</strong>
+                                                    <br><small class="text-muted">Rp {{ $order->catalogue ? number_format($order->catalogue->price, 0, ',', '.') : '0' }}</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{{ $order->event_date ? \Carbon\Carbon::parse($order->event_date)->format('M d, Y') : 'N/A' }}</td>
+                                        <td><strong class="text-success">Rp {{ number_format($order->total_price, 0, ',', '.') }}</strong></td>
+                                        <td>
+                                            @switch($order->status)
+                                                @case('pending')
+                                                    <span class="badge bg-warning text-dark">Pending</span>
+                                                    @break
+                                                @case('confirmed')
+                                                    <span class="badge bg-info">Confirmed</span>
+                                                    @break
+                                                @case('completed')
+                                                    <span class="badge bg-success">Completed</span>
+                                                    @break
+                                                @case('cancelled')
+                                                    <span class="badge bg-danger">Cancelled</span>
+                                                    @break
+                                                @default
+                                                    <span class="badge bg-secondary">{{ ucfirst($order->status) }}</span>
+                                            @endswitch
+                                        </td>
+                                        <td><small class="text-muted">{{ $order->created_at->format('M d, Y H:i') }}</small></td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="viewOrder({{ $order->id }})" title="View Details">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                @if($order->status == 'pending')
+                                                    <button type="button" class="btn btn-sm btn-success" onclick="updateOrderStatus({{ $order->id }}, 'confirmed')" title="Confirm Order">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="updateOrderStatus({{ $order->id }}, 'cancelled')" title="Cancel Order">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                @elseif($order->status == 'confirmed')
+                                                    <button type="button" class="btn btn-sm btn-primary" onclick="updateOrderStatus({{ $order->id }}, 'completed')" title="Complete Order">
+                                                        <i class="fas fa-check-double"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="updateOrderStatus({{ $order->id }}, 'cancelled')" title="Cancel Order">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="8" class="text-center py-5">
+                                            <div class="empty-state">
+                                                <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                                                <h5 class="text-muted">No Orders Found</h5>
+                                                <p class="text-muted mb-0">No orders available in the database.</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
 
                     <!-- Pagination -->
                     <div class="d-flex justify-content-center mt-4">
-                        <nav aria-label="Orders pagination">
-                            <ul class="pagination">
-                                <!-- Pagination will be loaded via JavaScript -->
-                            </ul>
-                        </nav>
+                        {{ $orders->appends(request()->query())->links() }}
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- View Order Modal -->
 <div class="modal fade" id="viewOrderModal" tabindex="-1" aria-labelledby="viewOrderModalLabel" aria-hidden="true">
@@ -268,23 +358,17 @@
 
     // Initialize page
     document.addEventListener('DOMContentLoaded', function() {
-        loadOrders();
-        
-        // Search functionality
+        // Search and filter event listeners
         document.getElementById('search').addEventListener('input', debounce(function() {
-            currentPage = 1;
-            loadOrders();
-        }, 300));
+            document.getElementById('orderSearchForm').submit();
+        }, 500));
         
-        // Filter functionality
-        document.getElementById('package_filter').addEventListener('change', function() {
-            currentPage = 1;
-            loadOrders();
+        document.getElementById('package').addEventListener('change', function() {
+            document.getElementById('orderSearchForm').submit();
         });
         
-        document.getElementById('status_filter').addEventListener('change', function() {
-            currentPage = 1;
-            loadOrders();
+        document.getElementById('status').addEventListener('change', function() {
+            document.getElementById('orderSearchForm').submit();
         });
         
         // Status update confirmation
@@ -304,110 +388,9 @@
         };
     }
 
-    // Load orders from API
-    async function loadOrders(page = 1) {
-        try {
-            showLoading(true);
-            
-            const searchTerm = document.getElementById('search').value;
-            const packageFilter = document.getElementById('package_filter').value;
-            const statusFilter = document.getElementById('status_filter').value;
-            
-            const params = new URLSearchParams({
-                page: page,
-                per_page: 10
-            });
-            
-            if (searchTerm) params.append('search', searchTerm);
-            if (packageFilter) params.append('package', packageFilter);
-            if (statusFilter) params.append('status', statusFilter);
-            
-            const response = await fetch(`/admin/api/orders?${params}`);
-            const data = await response.json();
-            
-            if (data.success) {
-                currentOrders = data.data.data;
-                currentPage = data.data.current_page;
-                totalPages = data.data.last_page;
-                
-                renderOrdersTable();
-                renderPagination();
-            } else {
-                showError('Failed to load orders: ' + (data.message || 'Unknown error'));
-            }
-        } catch (error) {
-            console.error('Error loading orders:', error);
-            showError('Failed to load orders. Please try again.');
-        } finally {
-            showLoading(false);
-        }
-    }
 
-    // Render orders table
-    function renderOrdersTable() {
-        const tableBody = document.querySelector('tbody');
-        
-        if (currentOrders.length === 0) {
-            tableBody.innerHTML = `
-                <tr>
-                    <td colspan="8" class="text-center py-5">
-                        <div class="empty-state">
-                            <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
-                            <h5 class="text-muted">No Orders Found</h5>
-                            <p class="text-muted mb-0">No orders match your current search criteria.</p>
-                        </div>
-                    </td>
-                </tr>
-            `;
-            return;
-        }
-        
-        tableBody.innerHTML = currentOrders.map(order => {
-            const statusBadge = getStatusBadge(order.status);
-            const packageImage = order.catalogue && order.catalogue.image 
-                ? `/storage/${order.catalogue.image}` 
-                : null;
-            
-            return `
-                <tr>
-                    <td><strong>#${order.id}</strong></td>
-                    <td>
-                        <div class="d-flex flex-column">
-                            <strong>${order.user ? order.user.name : 'N/A'}</strong>
-                            <small class="text-muted">${order.user ? order.user.email : 'N/A'}</small>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            ${packageImage ? `
-                                <img src="${packageImage}" alt="Package" class="rounded me-2" style="width: 40px; height: 40px; object-fit: cover;">
-                            ` : `
-                                <div class="bg-light rounded me-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                                    <i class="fas fa-image text-muted"></i>
-                                </div>
-                            `}
-                            <div>
-                                <strong>${order.catalogue ? order.catalogue.package_name : 'N/A'}</strong>
-                                <br><small class="text-muted">Rp ${order.catalogue ? formatPrice(order.catalogue.price) : '0'}</small>
-                            </div>
-                        </div>
-                    </td>
-                    <td>${formatDate(order.event_date)}</td>
-                    <td><strong class="text-success">Rp ${formatPrice(order.total_price)}</strong></td>
-                    <td>${statusBadge}</td>
-                    <td><small class="text-muted">${formatDateTime(order.created_at)}</small></td>
-                    <td>
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="viewOrder(${order.id})" title="View Details">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            ${getActionButtons(order)}
-                        </div>
-                    </td>
-                </tr>
-            `;
-        }).join('');
-    }
+
+
 
     // Get status badge HTML
     function getStatusBadge(status) {
@@ -615,8 +598,8 @@
                 // Show success message
                 showSuccess(`Order status updated to ${currentNewStatus} successfully!`);
                 
-                // Reload orders
-                loadOrders(currentPage);
+                // Reload page to show updated data
+                window.location.reload();
                 
                 // Reset current values
                 currentOrderId = null;
@@ -635,79 +618,7 @@
         }
     }
 
-    // Render pagination
-    function renderPagination() {
-        const paginationContainer = document.querySelector('.pagination');
-        
-        if (totalPages <= 1) {
-            paginationContainer.innerHTML = '';
-            return;
-        }
-        
-        let paginationHTML = '';
-        
-        // Previous button
-        paginationHTML += `
-            <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                <a class="page-link" href="#" onclick="${currentPage > 1 ? `changePage(${currentPage - 1})` : 'return false;'}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-        `;
-        
-        // Page numbers
-        const startPage = Math.max(1, currentPage - 2);
-        const endPage = Math.min(totalPages, currentPage + 2);
-        
-        if (startPage > 1) {
-            paginationHTML += '<li class="page-item"><a class="page-link" href="#" onclick="changePage(1)"><strong>1</strong></a></li>';
-            if (startPage > 2) {
-                paginationHTML += '<li class="page-item disabled"><span class="page-link">...</span></li>';
-            }
-        }
-        
-        for (let i = startPage; i <= endPage; i++) {
-            paginationHTML += `
-                <li class="page-item ${i === currentPage ? 'active' : ''}">
-                    <a class="page-link" href="#" onclick="changePage(${i})"><strong>${i}</strong></a>
-                </li>
-            `;
-        }
-        
-        if (endPage < totalPages) {
-            if (endPage < totalPages - 1) {
-                paginationHTML += '<li class="page-item disabled"><span class="page-link">...</span></li>';
-            }
-            paginationHTML += `<li class="page-item"><a class="page-link" href="#" onclick="changePage(${totalPages})"><strong>${totalPages}</strong></a></li>`;
-        }
-        
-        // Next button
-        paginationHTML += `
-            <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-                <a class="page-link" href="#" onclick="${currentPage < totalPages ? `changePage(${currentPage + 1})` : 'return false;'}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        `;
-        
-        paginationContainer.innerHTML = paginationHTML;
-    }
 
-    // Change page
-    function changePage(page) {
-        if (page >= 1 && page <= totalPages && page !== currentPage) {
-            loadOrders(page);
-        }
-    }
-
-    // Reset filters
-    function resetFilters() {
-        document.getElementById('search').value = '';
-        document.getElementById('package_filter').value = '';
-        document.getElementById('status_filter').value = '';
-        currentPage = 1;
-        loadOrders();
-    }
 
     // Utility functions
     function formatPrice(price) {
@@ -732,21 +643,7 @@
         });
     }
 
-    function showLoading(show) {
-        const tableBody = document.querySelector('tbody');
-        if (show) {
-            tableBody.innerHTML = `
-                <tr>
-                    <td colspan="8" class="text-center py-5">
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                        <p class="mt-2 text-muted">Loading orders...</p>
-                    </td>
-                </tr>
-            `;
-        }
-    }
+
 
     function showError(message) {
         // Create and show error toast/alert

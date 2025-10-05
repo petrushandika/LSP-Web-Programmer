@@ -76,14 +76,20 @@ class AdminController extends Controller
             });
         }
 
-        // Filter functionality
+        // Filter by package
+        if ($request->has('package') && $request->package) {
+            $query->where('catalogue_id', $request->package);
+        }
+
+        // Filter by status
         if ($request->has('status') && $request->status) {
             $query->where('status', $request->status);
         }
 
-        $orders = $query->paginate(10);
+        $orders = $query->orderBy('created_at', 'desc')->paginate(10);
+        $catalogues = Catalogue::all();
 
-        return view('admin.orders', compact('orders'));
+        return view('admin.orders', compact('orders', 'catalogues'));
     }
 
     // API Methods for Catalogue Management

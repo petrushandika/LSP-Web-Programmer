@@ -44,8 +44,8 @@
                     
                     <!-- Add Catalogue Button -->
                     <div class="flex-shrink-0">
-                        <button type="button" class="btn btn-success btn-lg" onclick="openAddCatalogueModal()">
-                            <i class="fas fa-plus me-2"></i>Add Catalogue
+                        <button type="button" class="btn" style="background-color: #ff69b4; border-color: #ff69b4; color: white;" onclick="openAddCatalogueModal()">
+                            <i class="fas fa-plus me-1"></i>Add Catalogue
                         </button>
                     </div>
                 </div>
@@ -362,157 +362,11 @@
 
     // Initialize page
     document.addEventListener('DOMContentLoaded', function() {
-        loadCatalogues();
+        // Page is now server-side rendered, no need to load data via JavaScript
     });
 
-    // Load catalogues with search and filter
-    function loadCatalogues() {
-        const searchTerm = document.getElementById('search').value;
-        const statusFilter = document.getElementById('status_filter').value;
-        
-        const params = new URLSearchParams();
-        if (searchTerm) params.append('search', searchTerm);
-        if (statusFilter) params.append('status', statusFilter);
-        
-        // Show loading state
-        const tableBody = document.querySelector('tbody');
-        tableBody.innerHTML = '<tr><td colspan="6" class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></td></tr>';
-        
-        fetch(`/admin/api/catalogues?${params.toString()}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    updateTable(data.data.data);
-                    updatePagination(data.data);
-                } else {
-                    showAlert('Error loading catalogues: ' + data.message, 'danger');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showAlert('Failed to load catalogues', 'danger');
-            });
-    }
 
-    // Update table with catalogue data
-    function updateTable(catalogues) {
-        const tableBody = document.querySelector('tbody');
-        
-        if (catalogues.length === 0) {
-            tableBody.innerHTML = `
-                <tr>
-                    <td colspan="6" class="text-center py-5">
-                        <div class="empty-state">
-                            <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
-                            <h5 class="text-muted">No catalogues found</h5>
-                            <p class="text-muted mb-3">Start by adding your first wedding package catalogue.</p>
-                            <button type="button" class="btn btn-primary" onclick="openAddCatalogueModal()">
-                                <i class="fas fa-plus me-2"></i>Add New Catalogue
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            `;
-            return;
-        }
-        
-        tableBody.innerHTML = catalogues.map(catalogue => `
-            <tr>
-                <td>
-                    ${catalogue.image ? 
-                        `<img src="/storage/${catalogue.image}" alt="${catalogue.package_name}" class="img-thumbnail" style="width: 60px; height: 60px; object-fit: cover;">` : 
-                        '<div class="bg-light d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; border-radius: 0.375rem;"><i class="fas fa-image text-muted"></i></div>'
-                    }
-                </td>
-                <td><strong>${catalogue.package_name}</strong></td>
-                <td class="text-truncate" style="max-width: 200px;" title="${catalogue.description}">${catalogue.description}</td>
-                <td><strong class="text-success">Rp ${parseInt(catalogue.price).toLocaleString('id-ID')}</strong></td>
-                <td>
-                    <span class="badge ${catalogue.status_publish === 'Y' ? 'bg-success' : 'bg-secondary'}">
-                        ${catalogue.status_publish === 'Y' ? 'Published' : 'Draft'}
-                    </span>
-                </td>
-                <td>
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-sm btn-outline-info" onclick="viewCatalogue(${catalogue.id})" title="View Details">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-outline-warning" onclick="editCatalogue(${catalogue.id})" title="Edit">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmDelete(${catalogue.id}, '${catalogue.package_name}')" title="Delete">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-        `).join('');
-    }
 
-    // Update pagination
-    function updatePagination(paginationData) {
-        const paginationContainer = document.querySelector('.pagination');
-        if (!paginationContainer) return;
-        
-        const { current_page, last_page, prev_page_url, next_page_url } = paginationData;
-        
-        let paginationHTML = '';
-        
-        // Previous button
-        paginationHTML += `
-            <li class="page-item ${!prev_page_url ? 'disabled' : ''}">
-                <a class="page-link" href="#" onclick="${prev_page_url ? `loadPage(${current_page - 1})` : 'return false;'}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-        `;
-        
-        // Page numbers
-        for (let i = Math.max(1, current_page - 2); i <= Math.min(last_page, current_page + 2); i++) {
-            paginationHTML += `
-                <li class="page-item ${i === current_page ? 'active' : ''}">
-                    <a class="page-link" href="#" onclick="loadPage(${i})"><strong>${i}</strong></a>
-                </li>
-            `;
-        }
-        
-        // Next button
-        paginationHTML += `
-            <li class="page-item ${!next_page_url ? 'disabled' : ''}">
-                <a class="page-link" href="#" onclick="${next_page_url ? `loadPage(${current_page + 1})` : 'return false;'}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        `;
-        
-        paginationContainer.innerHTML = paginationHTML;
-    }
-
-    // Load specific page
-    function loadPage(page) {
-        const searchTerm = document.getElementById('search').value;
-        const statusFilter = document.getElementById('status_filter').value;
-        
-        const params = new URLSearchParams();
-        if (searchTerm) params.append('search', searchTerm);
-        if (statusFilter) params.append('status', statusFilter);
-        params.append('page', page);
-        
-        fetch(`/admin/api/catalogues?${params.toString()}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    updateTable(data.data.data);
-                    updatePagination(data.data);
-                } else {
-                    showAlert('Error loading catalogues: ' + data.message, 'danger');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showAlert('Failed to load catalogues', 'danger');
-            });
-    }
 
     // Open add catalogue modal
     function openAddCatalogueModal() {
@@ -752,12 +606,12 @@
 
     // Search functionality
     document.getElementById('search').addEventListener('input', debounce(function() {
-        loadCatalogues();
+        document.getElementById('catalogueSearchForm').submit();
     }, 500));
 
     // Filter functionality
-    document.getElementById('status_filter').addEventListener('change', function() {
-        loadCatalogues();
+    document.getElementById('status').addEventListener('change', function() {
+        document.getElementById('catalogueSearchForm').submit();
     });
 
     // Utility functions
