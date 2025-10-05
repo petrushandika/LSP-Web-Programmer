@@ -9,7 +9,7 @@
                 @forelse($catalogues as $catalogue)
                 <div class="catalogue-card-wrapper">
                     <div class="card catalogue-card h-100">
-                        <div class="catalogue-image-wrapper" onclick="window.location.href='{{ url('catalogue-detail/' . $catalogue->catalogue_id) }}'" style="cursor: pointer;">
+                        <div class="catalogue-image-wrapper" onclick="window.location.href='{{ url('catalogue/' . $catalogue->catalogue_id) }}'" style="cursor: pointer;">
                             <img src="{{ $catalogue->image }}" class="card-img-top catalogue-image" alt="{{ $catalogue->name }}">
                             <div class="catalogue-price-overlay">
                                 <div class="price-badge">Rp {{ number_format($catalogue->price, 0, ',', '.') }}</div>
@@ -22,7 +22,7 @@
                             </div>
                         </div>
                         <div class="card-body catalogue-content d-flex flex-column">
-                            <h5 class="catalogue-title" onclick="window.location.href='{{ url('catalogue-detail/' . $catalogue->catalogue_id) }}'" style="cursor: pointer;">{{ $catalogue->package_name }}</h5>
+                            <h5 class="catalogue-title" onclick="window.location.href='{{ url('catalogue/' . $catalogue->catalogue_id) }}'" style="cursor: pointer;">{{ $catalogue->package_name }}</h5>
                             <p class="catalogue-description flex-grow-1">{{ Str::limit($catalogue->description, 50, '...') }}</p>
                             <div class="catalogue-features mb-3">
                                 <div class="feature-item">
@@ -63,7 +63,7 @@
                 @foreach($catalogues as $catalogue)
                 <div class="catalogue-card-wrapper">
                     <div class="card catalogue-card h-100">
-                        <div class="catalogue-image-wrapper" onclick="window.location.href='{{ url('catalogue-detail/' . $catalogue->catalogue_id) }}'" style="cursor: pointer;">
+                        <div class="catalogue-image-wrapper" onclick="window.location.href='{{ url('catalogue/' . $catalogue->catalogue_id) }}'" style="cursor: pointer;">
                             <img src="{{ $catalogue->image }}" class="card-img-top catalogue-image" alt="{{ $catalogue->name }}">
                             <div class="catalogue-price-overlay">
                                 <div class="price-badge">Rp {{ number_format($catalogue->price, 0, ',', '.') }}</div>
@@ -76,7 +76,7 @@
                             </div>
                         </div>
                         <div class="card-body catalogue-content d-flex flex-column">
-                            <h5 class="catalogue-title" onclick="window.location.href='{{ url('catalogue-detail/' . $catalogue->catalogue_id) }}'" style="cursor: pointer;">{{ $catalogue->package_name }}</h5>
+                            <h5 class="catalogue-title" onclick="window.location.href='{{ url('catalogue/' . $catalogue->catalogue_id) }}'" style="cursor: pointer;">{{ $catalogue->package_name }}</h5>
                             <p class="catalogue-description flex-grow-1">{{ Str::limit($catalogue->description, 50, '...') }}</p>
                             <div class="catalogue-features mb-3">
                                 <div class="feature-item">

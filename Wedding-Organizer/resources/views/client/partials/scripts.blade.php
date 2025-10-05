@@ -37,15 +37,20 @@
         });
 
         // Scroll to top functionality
-        document.getElementById('scrollTop').addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+        const scrollTopBtn = document.getElementById('scrollTop');
+        if (scrollTopBtn) {
+            scrollTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
             });
-        });
+        }
 
         // Contact form submission
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
             // Get form data
@@ -67,7 +72,8 @@
             
             // Show success message
             alert('Terima kasih! Anda akan diarahkan ke WhatsApp untuk mengirim pesan.');
-        });
+            });
+        }
 
         // Add animation on scroll
         const observerOptions = {

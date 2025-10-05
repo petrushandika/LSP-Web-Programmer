@@ -279,7 +279,7 @@
     </style>
 </head>
 <body>
-    @include('partials.navigation')
+    @include('client.partials.navigation')
 
     <!-- Detail Section -->
     <section class="detail-section">
@@ -293,7 +293,7 @@
             <div class="row">
                 <div class="col-lg-6 mb-4">
                     @if($catalogue->image)
-                        <img src="{{ asset('storage/' . $catalogue->image) }}" class="detail-image" alt="{{ $catalogue->package_name }}">
+                        <img src="{{ asset($catalogue->image) }}" class="detail-image" alt="{{ $catalogue->package_name }}">
                     @else
                         <img src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="detail-image" alt="{{ $catalogue->package_name }}">
                     @endif
@@ -345,22 +345,7 @@
                             </button>
                         </div>
                         
-                        <div class="d-grid gap-2 d-md-flex">
-                            <button class="btn btn-success btn-lg me-md-2" onclick="contactWhatsApp()">
-                                <i class="fas fa-whatsapp me-2"></i>Contact via WhatsApp
-                            </button>
-                            <button class="btn btn-outline-success btn-lg" onclick="contactPhone()">
-                                <i class="fas fa-phone me-2"></i>Call Now
-                            </button>
-                        </div>
-                        
-                        @if($catalogue->user)
-                        <div class="organizer-info">
-                            <h5 class="font-playfair mb-2">Wedding Organizer</h5>
-                            <p class="mb-1"><strong>{{ $catalogue->user->name }}</strong></p>
-                            <p class="text-muted mb-0">{{ $catalogue->user->email }}</p>
-                        </div>
-                        @endif
+
                     </div>
                 </div>
             </div>
@@ -384,10 +369,10 @@
                 
                 @foreach($recommendedCatalogues as $recommended)
                 <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="catalogue-card h-100" onclick="window.location.href='{{ url('catalogue/' . $recommended->id) }}'" style="cursor: pointer;">
+                    <div class="catalogue-card h-100" onclick="window.location.href='{{ url('catalogue/' . $recommended->catalogue_id) }}'" style="cursor: pointer;">
                         <div class="catalogue-image">
                             @if($recommended->image)
-                                <img src="{{ asset('storage/' . $recommended->image) }}" alt="{{ $recommended->package_name }}">
+                                <img src="{{ asset($recommended->image) }}" alt="{{ $recommended->package_name }}">
                             @else
                                 <img src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="{{ $recommended->package_name }}">
                             @endif
@@ -408,58 +393,7 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section class="contact-section">
-        <div class="container">
-            <div class="row text-center mb-5">
-                <div class="col-12">
-                    <h2 class="font-playfair mb-3">Interested in This Package?</h2>
-                    <p class="text-muted">Contact us now for a free consultation and get the best offer!</p>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="contact-card">
-                        <div class="contact-icon">
-                            <i class="fas fa-whatsapp"></i>
-                        </div>
-                        <h5 class="font-playfair mb-2">WhatsApp</h5>
-                        <p class="text-muted mb-3">{{ $settings->phone_number ?? '+62 812-345-678' }}</p>
-                        <button class="btn btn-primary" onclick="contactWhatsApp()">
-                            Chat Now
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="col-md-4 mb-4">
-                    <div class="contact-card">
-                        <div class="contact-icon">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <h5 class="font-playfair mb-2">Phone</h5>
-                        <p class="text-muted mb-3">{{ $settings->phone_number ?? '+62 812-345-678' }}</p>
-                        <button class="btn btn-outline-primary" onclick="contactPhone()">
-                            Call Now
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="col-md-4 mb-4">
-                    <div class="contact-card">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <h5 class="font-playfair mb-2">Email</h5>
-                        <p class="text-muted mb-3">{{ $settings->email ?? 'info@weddingorganizer.com' }}</p>
-                        <a href="mailto:{{ $settings->email ?? 'info@weddingorganizer.com' }}" class="btn btn-outline-primary">
-                            Send Email
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- Footer -->
     <footer class="footer">
@@ -468,7 +402,7 @@
         </div>
     </footer>
 
-    @include('partials.scripts')
+    @include('client.partials.scripts')
     <script>
         // Authentication check functions
         function checkAuthentication() {
@@ -506,19 +440,7 @@
             alert('Buy Now functionality will be implemented soon!');
         }
         
-        function contactWhatsApp() {
-            const packageName = '{{ $catalogue->package_name }}';
-            const price = 'Rp {{ number_format($catalogue->price, 0, ",", ".") }}';
-            const message = `Hello, I'm interested in the wedding package "${packageName}" with price ${price}. Could you please provide more detailed information?`;
-            const whatsappNumber = '{{ str_replace(["+", "-", " "], "", $settings->phone_number ?? "+6281234567890") }}';
-            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
-        }
-        
-        function contactPhone() {
-            const phoneNumber = '{{ $settings->phone_number ?? "+62 812-345-678" }}';
-            window.location.href = `tel:${phoneNumber}`;
-        }
+
     </script>
 </body>
 </html>

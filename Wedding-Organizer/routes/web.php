@@ -37,14 +37,14 @@ Route::middleware('guest')->group(function () {
 // Logout route (for authenticated users)
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
+// Catalogue detail route (before resource routes to avoid conflicts)
+Route::get('/catalogue/{id}', [LandingController::class, 'catalogueDetail'])->name('catalogue.detail');
+
 // Web Resource routes for view rendering (HTML responses)
 Route::resource('users', UserController::class);
 Route::resource('catalogues', CatalogueController::class);
 Route::resource('orders', OrderController::class);
 Route::resource('settings', SettingController::class);
-
-// Catalogue detail route (after resource routes to avoid conflicts)
-Route::get('/catalogue-detail/{id}', [LandingController::class, 'catalogueDetail'])->name('catalogue.detail');
 
 // Admin routes (only for admin users)
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
@@ -52,4 +52,18 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard.index');
     Route::get('/catalogues', [AdminController::class, 'catalogues'])->name('admin.catalogues');
     Route::get('/orders', [AdminController::class, 'orders'])->name('admin.orders');
+    
+    // API routes for admin functionality
+    Route::prefix('api')->group(function () {
+        // Catalogue API routes
+        Route::get('/catalogues', [AdminController::class, 'apiCatalogues'])->name('admin.api.catalogues');
+        Route::post('/catalogues', [AdminController::class, 'apiStoreCatalogue'])->name('admin.api.catalogues.store');
+        Route::put('/catalogues/{id}', [AdminController::class, 'apiUpdateCatalogue'])->name('admin.api.catalogues.update');
+        Route::delete('/catalogues/{id}', [AdminController::class, 'apiDeleteCatalogue'])->name('admin.api.catalogues.delete');
+        
+        // Order API routes
+        Route::get('/orders', [AdminController::class, 'apiOrders'])->name('admin.api.orders');
+        Route::get('/orders/{id}', [AdminController::class, 'apiGetOrder'])->name('admin.api.orders.show');
+        Route::put('/orders/{id}/status', [AdminController::class, 'apiUpdateOrderStatus'])->name('admin.api.orders.status');
+    });
 });
