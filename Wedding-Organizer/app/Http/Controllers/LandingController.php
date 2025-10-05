@@ -23,7 +23,7 @@ class LandingController extends Controller
         // Get website settings
         $settings = Setting::first();
 
-        return view('landing', compact('catalogues', 'settings'));
+        return view('client.landing', compact('catalogues', 'settings'));
     }
 
     /**
@@ -34,6 +34,6 @@ class LandingController extends Controller
         $catalogue = Catalogue::with('user')->where('catalogue_id', $id)->firstOrFail();
         $settings = Setting::first();
         
-        return view('catalogue-detail', compact('catalogue', 'settings'));
+        return view('client.catalogue-detail', compact('catalogue', 'settings'));
     }
 }
