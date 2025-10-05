@@ -249,6 +249,16 @@
                 </div>
                 
                 <div class="form-group">
+                    <label for="username" class="form-label">Username</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fas fa-at"></i>
+                        </span>
+                        <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
                     <label for="email" class="form-label">Email Address</label>
                     <div class="input-group">
                         <span class="input-group-text">
