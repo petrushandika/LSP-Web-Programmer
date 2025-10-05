@@ -30,7 +30,15 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended('/');
+
+            $user = Auth::user();
+
+            // Redirect based on role
+            if ($user->isAdmin()) {
+                return redirect()->route('admin.dashboard');
+            } else {
+                return redirect()->route('landing');
+            }
         }
 
         return back()->withErrors([
@@ -56,6 +64,7 @@ class AuthController extends Controller
             'username' => ['required', 'string', 'max:80', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'role' => ['required', 'in:admin,client,vendor']
         ]);
 
         if ($validator->fails()) {
@@ -69,11 +78,17 @@ class AuthController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role
         ]);
 
         Auth::login($user);
 
-        return redirect('/');
+        // Redirect based on role
+        if ($user->isAdmin()) {
+            return redirect()->route('admin.dashboard');
+        } else {
+            return redirect()->route('landing');
+        }
     }
 
     /**

@@ -12,7 +12,7 @@ class AdminController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'admin']);
     }
 
     /**
@@ -24,11 +24,11 @@ class AdminController extends Controller
         $pendingOrders = Order::where('status', 'pending')->count();
         $completedOrders = Order::where('status', 'completed')->count();
         $totalCatalogues = Catalogue::count();
-        
+
         return view('admin.dashboard', compact(
-            'totalOrders', 
-            'pendingOrders', 
-            'completedOrders', 
+            'totalOrders',
+            'pendingOrders',
+            'completedOrders',
             'totalCatalogues'
         ));
     }
@@ -39,20 +39,20 @@ class AdminController extends Controller
     public function catalogues(Request $request)
     {
         $query = Catalogue::with('user');
-        
+
         // Search functionality
         if ($request->has('search') && $request->search) {
             $query->where('package_name', 'like', '%' . $request->search . '%')
                   ->orWhere('description', 'like', '%' . $request->search . '%');
         }
-        
+
         // Filter functionality
         if ($request->has('status') && $request->status) {
             $query->where('status_publish', $request->status);
         }
-        
+
         $catalogues = $query->paginate(10);
-        
+
         return view('admin.catalogues', compact('catalogues'));
     }
 
@@ -62,24 +62,24 @@ class AdminController extends Controller
     public function orders(Request $request)
     {
         $query = Order::with(['user', 'catalogue']);
-        
+
         // Search functionality
         if ($request->has('search') && $request->search) {
-            $query->whereHas('user', function($q) use ($request) {
+            $query->whereHas('user', function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->search . '%')
                   ->orWhere('email', 'like', '%' . $request->search . '%');
-            })->orWhereHas('catalogue', function($q) use ($request) {
+            })->orWhereHas('catalogue', function ($q) use ($request) {
                 $q->where('package_name', 'like', '%' . $request->search . '%');
             });
         }
-        
+
         // Filter functionality
         if ($request->has('status') && $request->status) {
             $query->where('status', $request->status);
         }
-        
+
         $orders = $query->paginate(10);
-        
+
         return view('admin.orders', compact('orders'));
     }
 }

@@ -291,6 +291,21 @@
                     </div>
                 </div>
                 
+                <div class="form-group">
+                    <label for="role" class="form-label">Register as</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fas fa-user-tag"></i>
+                        </span>
+                        <select class="form-control" id="role" name="role" required>
+                            <option value="">Select Role</option>
+                            <option value="client" {{ old('role') == 'client' ? 'selected' : '' }}>Client</option>
+                            <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                            <option value="vendor" {{ old('role') == 'vendor' ? 'selected' : '' }}>Vendor</option>
+                        </select>
+                    </div>
+                </div>
+                
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-user-plus me-2"></i>Create Account
                 </button>

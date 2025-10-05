@@ -70,4 +70,28 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class, 'user_id', 'user_id');
     }
+
+    /**
+     * Check if user has admin role
+     */
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Check if user has client role
+     */
+    public function isClient()
+    {
+        return $this->role === 'client';
+    }
+
+    /**
+     * Check if user has vendor role
+     */
+    public function isVendor()
+    {
+        return $this->role === 'vendor';
+    }
 }
