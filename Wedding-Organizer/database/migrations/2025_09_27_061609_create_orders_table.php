@@ -12,18 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->unsignedInteger('order_id')->primary();
-            $table->unsignedInteger('catalogue_id');
+            $table->id('order_id');
+            $table->foreignId('catalogue_id')->constrained('catalogues', 'catalogue_id');
             $table->string('name', 120);
             $table->string('email', 256);
             $table->string('phone_number', 30);
             $table->date('wedding_date');
             $table->enum('status', ['requested', 'approved']);
-            $table->unsignedInteger('user_id');
+            $table->foreignId('user_id')->constrained('users', 'user_id');
             $table->timestamps();
-            
-            $table->foreign('catalogue_id')->references('catalogue_id')->on('catalogues');
-            $table->foreign('user_id')->references('user_id')->on('users');
         });
     }
 

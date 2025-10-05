@@ -12,7 +12,7 @@
                         <div class="catalogue-image-wrapper" onclick="window.location.href='{{ url('catalogue-detail/' . $catalogue->catalogue_id) }}'" style="cursor: pointer;">
                             <img src="{{ $catalogue->image }}" class="card-img-top catalogue-image" alt="{{ $catalogue->name }}">
                             <div class="catalogue-price-overlay">
-                                <div class="price-badge">${{ number_format($catalogue->price, 0, ',', '.') }}</div>
+                                <div class="price-badge">Rp {{ number_format($catalogue->price, 0, ',', '.') }}</div>
                             </div>
                             <div class="catalogue-overlay">
                                 <div class="overlay-content">
@@ -66,7 +66,7 @@
                         <div class="catalogue-image-wrapper" onclick="window.location.href='{{ url('catalogue-detail/' . $catalogue->catalogue_id) }}'" style="cursor: pointer;">
                             <img src="{{ $catalogue->image }}" class="card-img-top catalogue-image" alt="{{ $catalogue->name }}">
                             <div class="catalogue-price-overlay">
-                                <div class="price-badge">${{ number_format($catalogue->price, 0, ',', '.') }}</div>
+                                <div class="price-badge">Rp {{ number_format($catalogue->price, 0, ',', '.') }}</div>
                             </div>
                             <div class="catalogue-overlay">
                                 <div class="overlay-content">

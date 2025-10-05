@@ -35,6 +35,12 @@ class CreateUserRequest extends FormRequest
                 'max:80',
                 'min:2'
             ],
+            'username' => [
+                'required',
+                'string',
+                'max:80',
+                'unique:users,username'
+            ],
             'email' => [
                 'required',
                 'email',
@@ -77,6 +83,9 @@ class CreateUserRequest extends FormRequest
             'name.required' => 'Nama wajib diisi',
             'name.min' => 'Nama minimal 2 karakter',
             'name.max' => 'Nama maksimal 80 karakter',
+            'username.required' => 'Username wajib diisi',
+            'username.unique' => 'Username sudah terdaftar',
+            'username.max' => 'Username maksimal 80 karakter',
             'email.required' => 'Email wajib diisi',
             'email.email' => 'Format email tidak valid',
             'email.unique' => 'Email sudah terdaftar',

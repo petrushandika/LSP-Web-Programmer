@@ -15,9 +15,9 @@ class UserSeeder extends Seeder
     {
         // Create admin user
         User::factory()->create([
-            'user_id' => 1,
             'name' => 'Admin Wedding Organizer',
             'username' => 'admin',
+            'email' => 'admin@weddingorganizer.com',
             'password' => bcrypt('admin123'),
         ]);
 

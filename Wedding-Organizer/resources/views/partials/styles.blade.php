@@ -209,10 +209,9 @@
     
     /* Catalogue Cards */
     .catalogue-card {
-        border: none;
+        border: 1px solid #e0e0e0;
         border-radius: 20px;
         overflow: hidden;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.12);
         transition: all 0.4s ease;
         background: white;
         position: relative;
@@ -221,7 +220,7 @@
     
     .catalogue-card:hover {
         transform: translateY(-15px);
-        box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        border-color: #d0d0d0;
     }
     
     .clickable-card {

@@ -22,7 +22,6 @@ class Catalogue extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'catalogue_id',
         'image',
         'package_name',
         'description',

@@ -302,7 +302,7 @@
                 <div class="col-lg-6">
                     <div class="detail-content">
                         <h1 class="package-title">{{ $catalogue->package_name }}</h1>
-                        <div class="price-display">${{ number_format($catalogue->price, 0, ',', '.') }}</div>
+                        <div class="price-display">Rp {{ number_format($catalogue->price, 0, ',', '.') }}</div>
                         
                         <div class="description">
                             {{ $catalogue->description }}
@@ -394,7 +394,7 @@
                         </div>
                         <div class="catalogue-content">
                             <h5 class="catalogue-title">{{ $recommended->package_name }}</h5>
-                            <p class="catalogue-price">${{ number_format($recommended->price, 0, ',', '.') }}</p>
+                            <p class="catalogue-price">Rp {{ number_format($recommended->price, 0, ',', '.') }}</p>
                             <p class="catalogue-description">{{ Str::limit($recommended->description, 100) }}</p>
                             <div class="catalogue-features">
                                 <span class="feature-badge"><i class="fas fa-check"></i> Professional Service</span>
@@ -508,7 +508,7 @@
         
         function contactWhatsApp() {
             const packageName = '{{ $catalogue->package_name }}';
-            const price = '${{ number_format($catalogue->price, 0, ",", ".") }}';
+            const price = 'Rp {{ number_format($catalogue->price, 0, ",", ".") }}';
             const message = `Hello, I'm interested in the wedding package "${packageName}" with price ${price}. Could you please provide more detailed information?`;
             const whatsappNumber = '{{ str_replace(["+", "-", " "], "", $settings->phone_number ?? "+6281234567890") }}';
             const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;

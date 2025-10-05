@@ -32,9 +32,9 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => fake()->unique()->numberBetween(1, 99999),
             'name' => fake()->name(),
             'username' => fake()->unique()->userName(),
+            'email' => fake()->unique()->safeEmail(),
             'password' => Hash::make('password'),
         ];
     }

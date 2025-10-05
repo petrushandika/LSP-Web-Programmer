@@ -173,8 +173,13 @@
             font-size: 1.2rem;
             text-decoration: none;
             background: rgba(255, 255, 255, 0.2);
-            padding: 10px;
-            border-radius: 50%;
+            padding: 12px;
+            border-radius: 50% !important;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: all 0.3s ease;
         }
         

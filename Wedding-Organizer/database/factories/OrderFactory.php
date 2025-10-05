@@ -31,7 +31,6 @@ class OrderFactory extends Factory
         $catalogueId = !empty($catalogueIds) ? fake()->randomElement($catalogueIds) : 1;
         
         return [
-            'order_id' => fake()->unique()->numberBetween(1, 99999),
             'name' => fake()->name(),
             'email' => fake()->safeEmail(),
             'phone_number' => fake()->phoneNumber(),

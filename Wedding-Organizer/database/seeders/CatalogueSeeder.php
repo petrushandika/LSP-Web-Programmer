@@ -20,9 +20,9 @@ class CatalogueSeeder extends Seeder
         if (!$adminUser) {
             // Create admin user if not exists
             $adminUser = User::create([
-                'user_id' => 1,
                 'name' => 'Admin Wedding Organizer',
                 'username' => 'admin',
+                'email' => 'admin@weddingorganizer.com',
                 'password' => bcrypt('admin123'),
             ]);
         }
@@ -30,7 +30,6 @@ class CatalogueSeeder extends Seeder
         // Create comprehensive wedding packages
         $weddingPackages = [
             [
-                'catalogue_id' => 1,
                 'package_name' => 'Intimate Wedding Package',
                 'description' => 'Perfect intimate wedding for 50-100 guests with elegant...',
                 'price' => 15000000,
@@ -39,7 +38,6 @@ class CatalogueSeeder extends Seeder
                 'user_id' => $adminUser->user_id,
             ],
             [
-                'catalogue_id' => 2,
                 'package_name' => 'Classic Wedding Package',
                 'description' => 'Traditional classic wedding for 100-200 guests with stunning...',
                 'price' => 25000000,
@@ -48,7 +46,6 @@ class CatalogueSeeder extends Seeder
                 'user_id' => $adminUser->user_id,
             ],
             [
-                'catalogue_id' => 3,
                 'package_name' => 'Premium Wedding Package',
                 'description' => 'Luxurious premium wedding for 200-300 guests with complete...',
                 'price' => 45000000,
@@ -57,7 +54,6 @@ class CatalogueSeeder extends Seeder
                 'user_id' => $adminUser->user_id,
             ],
             [
-                'catalogue_id' => 4,
                 'package_name' => 'Luxury Wedding Package',
                 'description' => 'Exclusive luxury wedding for 300-500 guests with VIP...',
                 'price' => 75000000,
@@ -66,7 +62,6 @@ class CatalogueSeeder extends Seeder
                 'user_id' => $adminUser->user_id,
             ],
             [
-                'catalogue_id' => 5,
                 'package_name' => 'Garden Wedding Package',
                 'description' => 'Beautiful outdoor garden wedding for 150-250 guests with...',
                 'price' => 35000000,
