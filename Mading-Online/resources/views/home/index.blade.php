@@ -1,0 +1,120 @@
+@extends('layouts.app')
+
+@section('title', 'Mading Online JeWePe')
+
+@section('content')
+    {{-- Carousel --}}
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
+                class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://images.unsplash.com/photo-1542404937-2132aa1fa6fc" class="d-block w-100"
+                    style="height:575px; object-fit:cover;" alt="gedung" />
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Welcome</h3>
+                    <h5>Selamat Datang di Mading Online Sekolah Tinggi JeWePe!</h5>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://images.unsplash.com/photo-1484417894907-623942c8ee29" class="d-block w-100"
+                    style="height:575px; object-fit:cover;" alt="laptop" />
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Informasi Terkini</h3>
+                    <h5>Temukan informasi terkini, acara menarik, dan pengumuman penting di platform kami.</h5>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c" class="d-block w-100"
+                    style="height:575px; object-fit:cover;" alt="college" />
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>Berinteraksi dan Diskusikan!</h3>
+                    <h5>Berikan komentar, ajukan pertanyaan, dan dukung kolaborasi yang positif.</h5>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+
+    {{-- Marquee --}}
+    <div class="bg-warning bg-gradient">
+        <marquee direction="left" style="font-weight:bold;">
+            !!INFO!! Jadwal Ujian Tengah Semester: 5 Juni - 17 Juni 2023
+        </marquee>
+    </div>
+
+    {{-- Mading Populer --}}
+    <div class="p-5">
+        <div class="d-flex justify-content-between">
+            <h2 class="poppins">MADING POPULER</h2>
+            <a class="icon-link icon-link-hover poppins" href="{{ route('artikel.index') }}">
+                Lihat Semua Mading <i class="bi bi-arrow-right" style="font-size:large;"></i>
+            </a>
+        </div>
+        <div class="card-group">
+            @forelse($artikelPopuler as $artikel)
+                <div class="card">
+                    <img src="{{ $artikel->gambar }}" class="card-img-top h-75" alt="{{ $artikel->judul_artikel }}"
+                        onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300?text=No+Image';"
+                        style="max-height:250px; object-fit:cover;" />
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $artikel->judul_artikel }}</h5>
+                        <a href="{{ route('artikel.show', $artikel->id_artikel) }}"
+                            class="text-decoration-none text-dark stretched-link text-muted">
+                            Lihat Artikel &raquo;
+                        </a>
+                    </div>
+                    <div class="card-footer text-muted d-flex justify-content-between align-items-center">
+                        <div><i class="bi bi-person-circle"></i> <small>{{ $artikel->admin->nama }}</small></div>
+                        <div><i class="bi bi-chat-right"></i> <small>{{ $artikel->jumlah_komentar }}</small></div>
+                    </div>
+                </div>
+            @empty
+                <p class="text-muted">Belum ada artikel.</p>
+            @endforelse
+        </div>
+    </div>
+
+    {{-- Mading Terbaru --}}
+    <div class="p-5">
+        <div class="d-flex justify-content-between">
+            <h2 class="poppins">MADING TERBARU</h2>
+            <a class="icon-link icon-link-hover poppins" href="{{ route('artikel.index') }}">
+                Lihat Semua Mading <i class="bi bi-arrow-right" style="font-size:large;"></i>
+            </a>
+        </div>
+        <div class="card-group">
+            @forelse($artikelTerbaru as $artikel)
+                <div class="card">
+                    <img src="{{ $artikel->gambar }}" class="card-img-top h-75" alt="{{ $artikel->judul_artikel }}"
+                        onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300?text=No+Image';"
+                        style="max-height:250px; object-fit:cover;" />
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $artikel->judul_artikel }}</h5>
+                        <a href="{{ route('artikel.show', $artikel->id_artikel) }}"
+                            class="text-decoration-none text-dark stretched-link text-muted">
+                            Lihat Artikel &raquo;
+                        </a>
+                    </div>
+                    <div class="card-footer text-muted d-flex justify-content-between align-items-center">
+                        <div><i class="bi bi-person-circle"></i> <small>{{ $artikel->admin->nama }}</small></div>
+                        <div><i class="bi bi-chat-right"></i> <small>{{ $artikel->jumlah_komentar }}</small></div>
+                    </div>
+                </div>
+            @empty
+                <p class="text-muted">Belum ada artikel.</p>
+            @endforelse
+        </div>
+    </div>
+@endsection

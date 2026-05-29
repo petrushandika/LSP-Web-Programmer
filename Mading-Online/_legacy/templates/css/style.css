@@ -1,0 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+
+img {
+  object-fit: cover;
+}
+
+hr {
+  border-color: #f05f44;
+  border-width: 3px;
+  max-width: 75px;
+}
+
+.card:hover {
+  background: #fcaf24;
+  border-color: #ffdb00;
+  border-width: 3px;
+  transition: all ease-in-out 0.3s;
+  color: white;
+}
+
+.logo-text {
+  font-family: "Ubuntu", Arial;
+}
+
+.poppins {
+  font-family: "Poppins", sans-serif;
+}
+
+.navbar .nav-link {
+  font-weight: bold;
+}
+
+/*------------ Login container ------------*/
+.box-area {
+  width: 930px;
+}
+/*------------ Right box ------------*/
+.right-box {
+  padding: 40px 30px 40px 40px;
+}
+/*------------ Custom Placeholder ------------*/
+::placeholder {
+  font-size: 16px;
+}
+.rounded-4 {
+  border-radius: 20px;
+}
+.rounded-5 {
+  border-radius: 30px;
+}
+
+/* small screens */
+@media only screen and (max-width: 768px) {
+  .box-area {
+    margin: 0 10px;
+  }
+  .left-box {
+    height: 100px;
+    overflow: hidden;
+  }
+  .right-box {
+    padding: 20px;
+  }
+}
